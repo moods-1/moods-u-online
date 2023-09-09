@@ -37,6 +37,13 @@ export const getStoredUser = () => {
 	return null;
 };
 
+export const getStoredCart = () => {
+	if (getLocalStorage('cart')) {
+		return JSON.parse(getLocalStorage('cart'));
+	}
+	return [];
+}
+
 export const getLoggedIn = () => {
 	const result = getLocalStorage('loggedIn');
 	return result === 'true' ? true : false;

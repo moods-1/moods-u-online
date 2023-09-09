@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Wrapper from '../../components/Wrapper';
-import { removeFromCart } from '../../redux/user';
+import { removeFromCart, loadCart } from '../../redux/user';
 import { EmptyCart } from '../../assets';
 import CustomSlider from '../../components/CustomSlider';
 import CourseCard from '../../components/CourseCard';
 import CartTop from './CartTop';
 import CartItem from './CartItem';
+import { getStoredCart, updateStorageCart } from '../../helpers/helperFunctions';
 
 const Cart = () => {
 	const { courses } = useSelector((state) => state.course);
-	const { cart } = useSelector((state) => state.user);
+	const { cart, user } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
+	const [showLoginMessage, setShowLoginMessage] = useState(false);
 	const [localCartObject, setLocalCartObject] = useState({});
 	const [cartCourses, setCartCourses] = useState([]);
 	const [subtotal, setSubtotal] = useState(0);
+	const navigate = useNavigate();
 	const cartItems = Object.keys(localCartObject).length;
 	const showCheckout = Object.keys(localCartObject).length > 0;
+	const loggedIn = user?.loggedIn;
 
 	useEffect(() => {
 		const cartItems = [];
@@ -45,7 +49,11 @@ const Cart = () => {
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-	}, []);
+		const storedCart = getStoredCart();
+		if (storedCart.length) {
+			dispatch(loadCart(storedCart));
+		}
+	}, [dispatch]);
 
 	const handleCheck = (id) => {
 		const localCart = { ...localCartObject };
@@ -58,7 +66,16 @@ const Cart = () => {
 	};
 
 	const handleDelete = (id) => {
+		updateStorageCart(id, 'remove');
 		dispatch(removeFromCart(id));
+	};
+
+	const handleCheckout = () => {
+		navigate('/checkout');
+	};
+
+	const handleLoginMessage = () => {
+		setShowLoginMessage(!loggedIn);
 	};
 
 	const sliderData = courses.map((course) => <CourseCard course={course} />);
@@ -88,11 +105,24 @@ const Cart = () => {
 					</div>
 					<div className='w-full sm:w-40 text-left sm:text-center mb-10'>
 						{showCheckout && (
-							<NavLink to='/checkout'>
-								<button className='bg-amber-500 text-white px-12 py-1 rounded-md w-full'>
+							<div
+								className='w-full relative'
+								onMouseOver={handleLoginMessage}
+								onMouseLeave={() => setShowLoginMessage(false)}
+							>
+								<button
+									className='bg-amber-500 text-white px-12 py-1 rounded-md w-full'
+									onClick={handleCheckout}
+									disabled={!loggedIn}
+								>
 									Checkout
 								</button>
-							</NavLink>
+								{showLoginMessage && (
+									<div className='border rounded-md p-2 text-red-600 text-sm mt-1'>
+										You must logged in to checkout.
+									</div>
+								)}
+							</div>
 						)}
 					</div>
 				</div>

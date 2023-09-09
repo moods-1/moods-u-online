@@ -8,7 +8,6 @@ import CustomInput from '../CustomInput';
 import AddFile from '../AddFile';
 import { updateUserDetails } from '../../api/user';
 import { updateUser } from '../../redux/user';
-import Snack from '../Snack';
 
 const UserModal = ({ open, handleClose, user, type }) => {
 	const [form, setForm] = useState({
@@ -26,7 +25,7 @@ const UserModal = ({ open, handleClose, user, type }) => {
 	const dispatch = useDispatch();
 	const { enqueueSnackbar } = useSnackbar();
 
-	const Snack = (message, type, duration) => {
+	const snack = (message, type, duration) => {
 		setSubmitting(false);
 		return enqueueSnackbar(message, {
 			variant: type,
@@ -70,7 +69,7 @@ const UserModal = ({ open, handleClose, user, type }) => {
 			dispatch(updateUser(response));
 			handleClose();
 		} else {
-			return Snack(message, 'error', 3000);
+			return snack(message, 'error', 3000);
 		}
 		setSubmitting(false);
 	};

@@ -48,8 +48,9 @@ const SignUp = ({ handleType }) => {
 		const result = await signUpUser(form);
 		const { status, message, response } = result;
 		if (status < 400) {
-			handleLogin(response);
-			dispatch(loadUser(response));
+			const data = { ...response, loggedIn: true };
+			handleLogin(data);
+			dispatch(loadUser(data));
 			navigate('/');
 		} else {
 			handleSignUpError(message);

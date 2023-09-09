@@ -6,7 +6,7 @@ import Wrapper from '../../components/Wrapper';
 import CheckoutItem from './CheckoutItem';
 import { checkout } from '../../api/user';
 import { updateUserPostCheckout } from '../../redux/user';
-import { handleLogin, setLocalStorage } from '../../helpers/helperFunctions';
+import { setLocalStorage } from '../../helpers/helperFunctions';
 
 const Checkout = () => {
   const [enablePlaceOrder, setEnablePlaceOrder] = useState(false);

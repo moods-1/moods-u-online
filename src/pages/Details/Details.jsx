@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
+import { useSnackbar } from 'notistack';
 
 import Wrapper from '../../components/Wrapper';
 import Prerequisites from './Prerequisites';
@@ -11,21 +12,52 @@ import FineDetails from './FineDetails';
 import DetailsTop from './DetailsTop';
 import Slider from '../../components/CustomSlider';
 import CourseCard from '../../components/CourseCard';
+import { updateStorageCart } from '../../helpers/helperFunctions';
+import { updateCart } from '../../api/user';
 
 const Details = () => {
 	const { id } = useParams();
 	const [course, setCourse] = useState({});
 	const [sliderCourses, setSliderCourses] = useState([]);
 	const { courses } = useSelector((state) => state.course);
-	const { cart } = useSelector((state) => state.user);
+	const { cart, user } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
+	const { enqueueSnackbar } = useSnackbar();
 	const cartSet = new Set([...cart]);
 	const inCart = cartSet.has(id);
+	const loggedIn = user?.loggedIn;
 
-	const handleAddToCart = () => {
-		dispatch(addToCart(id));
+	const snack = (message, type, duration) => {
+		return enqueueSnackbar(message, {
+			variant: type,
+			autoHideDuration: duration,
+		});
 	};
-	const handleRemoveFromCart = () => {
+	
+	const handleAddToCart = async () => {
+		const enrolledSet = new Set([...user?.enrolledCourses]);
+		if (enrolledSet.has(id)) {
+			snack('You are already enrolled in this course.', 'info', 4000);
+		} else {
+			const itemId = id;
+			const type = 'add';
+			updateStorageCart(itemId, type);
+			if (loggedIn) {
+				const userId = user?._id;
+				await updateCart({ userId, itemId, type });
+			}
+			dispatch(addToCart(id));
+		}
+	};
+
+	const handleRemoveFromCart = async () => {
+		const itemId = id;
+		const type = 'remove';
+		updateStorageCart(itemId, type);
+		if (loggedIn) {
+			const userId = user?._id;
+			await updateCart({ userId, itemId, type });
+		}
 		dispatch(removeFromCart(id));
 	};
 

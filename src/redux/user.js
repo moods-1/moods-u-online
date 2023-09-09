@@ -32,6 +32,10 @@ export const userSlice = createSlice({
 				state.cart = [...new Set([...state.cart, action.payload])];
 			}
 		},
+		loadCart: (state, action) => {
+			const { cart } = current(state);
+			state.cart = [...new Set([...cart, ...action.payload])];
+		},
 		removeFromCart: (state, action) => {
 			const { cart } = current(state);
 			const items = cart.filter((i) => i !== action.payload);
@@ -54,6 +58,7 @@ export const {
 	updateUserPostCheckout,
 	logoutUser,
 	addToCart,
+	loadCart,
 	removeFromCart,
 	emptyCart,
 } = userSlice.actions;

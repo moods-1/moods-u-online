@@ -1,11 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {
-	handleLogout,
-	getLoggedIn,
-	userLogout,
-} from '../helpers/helperFunctions';
+import { getLoggedIn, userLogout } from '../helpers/helperFunctions';
 import Avatar from '../assets/defaultAvatar.png';
 import ClickOutsideHandler from './ClickOutsideHandler';
 import { logoutUser } from '../redux/user';
