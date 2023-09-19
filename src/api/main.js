@@ -19,7 +19,7 @@ export const mainRequest = async (method, url, data) => {
 			responseMessage = data?.message;
 			if (status === 401) {
 				let messageOut = responseMessage || message;
-				console.log({ messageOut });
+				console.log(messageOut);
 				// handleLogout();
 			}
 		}
