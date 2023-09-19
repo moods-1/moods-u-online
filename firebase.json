@@ -1,7 +1,7 @@
 {
 	"hosting": {
 		"public": "build",
-		"site": "moods-u",
+		"site": "moods-u-online",
 		"ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
 		"rewrites": [
 			{
