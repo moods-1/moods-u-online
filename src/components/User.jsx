@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { getLoggedIn, userLogout } from '../helpers/helperFunctions';
+import { userLogout } from '../helpers/helperFunctions';
 import Avatar from '../assets/defaultAvatar.png';
 import ClickOutsideHandler from './ClickOutsideHandler';
 import { logoutUser } from '../redux/user';
@@ -10,12 +10,11 @@ import UserModal from './modals/UserModal';
 const User = ({ closeMenu, handleNavItemChange, user }) => {
 	const [showUserModal, setShowUserModal] = useState(false);
 	const [showDetails, setShowDetails] = useState(false);
-	const { image, firstName } = user;
+	const { image, firstName, loggedIn } = user;
 	const dispatch = useDispatch();
 	const userDetailsRef = useRef();
 	const profile = image || Avatar;
-	const loggedIn = getLoggedIn();
-
+	
 	const handleDetails = () => {
 		setShowDetails((prev) => !prev);
 		handleNavItemChange();
@@ -70,6 +69,7 @@ const User = ({ closeMenu, handleNavItemChange, user }) => {
 						>
 							<p className='px-4 py-1'>{firstName}</p>
 							{loggedIn && (
+								<>
 								<NavLink
 									to='/enrolled-courses'
 									className='dropdown-link'
@@ -77,18 +77,25 @@ const User = ({ closeMenu, handleNavItemChange, user }) => {
 								>
 									My Courses
 								</NavLink>
+								<NavLink
+									to='/orders'
+									className='dropdown-link'
+									onClick={handleDetails}
+								>
+									My Orders
+								</NavLink>
+								<p
+								className='cursor-pointer dropdown-link'
+								onClick={handleEdit}
+							>
+								Profile
+							</p>
+								</>
+								
 							)}
 							<p className='cursor-pointer dropdown-link' onClick={logFunction}>
 								{logType}
 							</p>
-							{loggedIn && (
-								<p
-									className='cursor-pointer dropdown-link'
-									onClick={handleEdit}
-								>
-									Profile
-								</p>
-							)}
 						</div>
 					)}
 				</div>

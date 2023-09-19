@@ -1,92 +1,105 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
 import Wrapper from '../../components/Wrapper';
-import CheckoutItem from './CheckoutItem';
-import { checkout } from '../../api/user';
-import { updateUserPostCheckout } from '../../redux/user';
-import { setLocalStorage } from '../../helpers/helperFunctions';
+import PayNow from './PayNow';
+import { CURRENCIES } from '../../helpers/constants';
+import { createPaymentIntent } from '../../api/stripe';
 
 const Checkout = () => {
-  const [enablePlaceOrder, setEnablePlaceOrder] = useState(false);
-  const [cartCourses, setCartCourses] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [enablePay, setEnablePay] = useState(false);
 	const [orderTotal, setOrderTotal] = useState(0);
+	const [clientSecret, setClientSecret] = useState(null);
 	const { cart, user } = useSelector((state) => state.user);
-  const { courses } = useSelector((state) => state.course);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+	const { courses } = useSelector((state) => state.course);
+	const stripePublishableKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 	const cartQuantity = cart.length;
 
 	useEffect(() => {
-    let total = 0;
-    const cartItems = [];
+		let total = 0;
 		cart.forEach((id) => {
 			const item = courses.find((c) => c._id === id);
-      if (item) {
-        cartItems.push(item);
+			if (item) {
 				total += item.price;
 			}
 		});
-		setEnablePlaceOrder(total > 0);
-    setOrderTotal(total.toFixed(2));
-    setCartCourses([...cartItems]);
-  }, [cart, courses]);
-  
-  const handleCheckout = async () => {
-    setEnablePlaceOrder(false);
-    const { _id: id } = user;
-    const requestBody = { id, cart };
-    const result = await checkout(requestBody);
-    const { status, message, response } = result;
-    if (status < 400) {
-      setLocalStorage('user', JSON.stringify(response));
-      dispatch(updateUserPostCheckout(response));
-      navigate('/enrolled-courses');
-    } else {
-      console.log({ message })
-      setEnablePlaceOrder(true);
-    }
-}
+		setEnablePay(total > 0);
+		setOrderTotal(total.toFixed(2));
+	}, [cart, courses]);
 
+	useEffect(() => {
+		setIsLoading(true);
+		if (orderTotal > 0) {
+			const getIntentKey = async () => {
+				const requestBody = {
+					currency: CURRENCIES.CANADIAN,
+					amount: orderTotal.replace('.', ''),
+					userId: user._id,
+					customer: `${user.firstName} ${user.lastName}`,
+					email: user.email,
+					cart,
+				};
+				const result = await createPaymentIntent(requestBody);
+				const { status, message, response } = result;
+				if (status < 400) {
+					setClientSecret(response.clientSecret);
+				} else {
+					console.log({ message });
+				}
+				setIsLoading(false);
+			};
+			getIntentKey();
+		} else {
+			setIsLoading(false);
+		}
+	}, [orderTotal, cart, user]);
+
+	const showElements = stripePublishableKey && clientSecret;
+	const showNoConnection = !showElements && !isLoading;
 	return (
-		<div className='min-h-[calc(100vh-110px)]'>
-			<div className='mb-16'>
-				<p className='page-subtitle'>Checkout Courses ({cartQuantity})</p>
-				<p className='mt-[-20px] text-sm'>
-					Once your order has been processed, your courses will appear
-					on the enrolled classes page.
-				</p>
-			</div>
-			<div className='flex flex-col-reverse sm:flex-row gap-4'>
-        <div className='flex flex-col gap-5 flex-1 mb-12'>
-        {cartCourses.map((course) => (
-							<CheckoutItem
-								key={course._id}
-								course={course}
-							/>
-						))}
-        </div>
-				<div className='w-full sm:w-[260px] min-w-[250px] h-44 text-left sm:text-center mb-10 border rounded-md'>
-					<div className='p-4'>
-						<button
-							className='bg-amber-500 disabled:bg-slate-300 text-white px-3 py-1 rounded-md w-full'
-              disabled={!enablePlaceOrder}
-              onClick={handleCheckout}
-						>
-							Place your order
-						</button>
-						<hr className='my-4' />
-						<p className='text-lg text-left font-semibold mb-5'>
-							Order Summary
-						</p>
-						<p className='flex justify-between'>
-							<span className='checkout-label'>Courses({cartQuantity}):</span>
-							<span>${orderTotal}</span>
-						</p>
+		<div className='full-height grid place-items-center'>
+			{showElements ? (
+				<div>
+					<div className='p-4 border rounded-md bg-blue-100 mb-4'>
+						<p><span className='font-medium'>Test Card:</span> 4242 4242 4242 4242</p>
+						<p><span className='font-medium'>Expiration:</span> 04/24</p>
+						<p><span className='font-medium'>CVC:</span> 424</p>
 					</div>
+
+					<Elements
+						stripe={loadStripe(stripePublishableKey)}
+						options={{ clientSecret }}
+					>
+						<PayNow
+							enablePay={enablePay}
+							cartQuantity={cartQuantity}
+							orderTotal={orderTotal}
+						/>
+					</Elements>
 				</div>
-			</div>
+			) : null}
+			{showNoConnection ? (
+				<div className='text-center text-xl -mt-20'>
+					<p className='font-semibold text-2xl'>
+						There's an issue connecting with the payment provider.
+					</p>
+					<p>
+						Please enjoy another page for now, and try to checkout again later.
+					</p>
+					<p>
+						If this persists for long period, please contact our{' '}
+						<NavLink to='/contact' className='text-blue-700'>
+							{' '}
+							support team
+						</NavLink>
+						.
+					</p>
+				</div>
+			) : null}
 		</div>
 	);
 };

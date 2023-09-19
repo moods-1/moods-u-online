@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import Wrapper from '../../components/Wrapper';
 import SupportBox from './SupportBox';
-import { getLoggedIn } from '../../helpers/helperFunctions';
 import SupportMembers from './SupportMembers';
 
 const Contact = () => {
-	const loggedIn = getLoggedIn();
+	const { user } = useSelector(state => state.user);
+	const { loggedIn } = user;
 	const navigate = useNavigate();
 
 	const handleLogin = () => {

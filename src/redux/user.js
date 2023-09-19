@@ -1,9 +1,39 @@
 import { createSlice, current } from '@reduxjs/toolkit';
-import { setLocalStorage } from '../helpers/helperFunctions';
+import {
+	setLocalStorage,
+	getStoredUser,
+	deleteStorageItem,
+	handleLogin,
+} from '../helpers/helperFunctions';
+import { getUserById } from '../api/user';
 
+const fetchUser = async () => {
+	const storedUser = getStoredUser();
+	if (storedUser) {
+		const { _id } = storedUser;
+		const result = await getUserById(_id);
+		const { status, message, response } = result;
+		if (status < 400 && response) {
+			deleteStorageItem('cart');
+			handleLogin(response);
+			return { ...response, loggedIn: true };
+		} else {
+			if ('email' in storedUser) {
+				return { ...storedUser, loggedIn: true };
+			}
+			console.log({ message });
+		}
+	}
+	return {};
+};
+
+const fetchedUser = await fetchUser();
+const storeCart = fetchedUser?.cart || [];
+ 
 const initialState = {
-	user: {},
-	cart: [],
+	user: { ...fetchedUser },
+	cart: [...storeCart],
+	checkoutCart: [],
 };
 
 export const userSlice = createSlice({
@@ -21,9 +51,11 @@ export const userSlice = createSlice({
 			state.user = { ...state.user, ...action.payload };
 		},
 		updateUserPostCheckout: (state, action) => {
-			state.user = action.payload;
+			const user = action.payload;
+			state.user = { ...user, loggedIn: true };
 			state.cart = [];
 			setLocalStorage('cart', JSON.stringify([]));
+			setLocalStorage('user', JSON.stringify(user));
 		},
 		addToCart: (state, action) => {
 			const { cart } = current(state);

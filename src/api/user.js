@@ -14,6 +14,12 @@ export const loginUser = async (data) => {
 	return await mainRequest(method, url, data);
 };
 
+export const getUserById = async (id) => {
+	const url = `${baseUrl}${USERS.GET_BY_ID}/${id}`;
+	const method = 'get';
+	return await mainRequest(method, url, {});
+}
+
 export const updateUserDetails = async (data) => {
 	const url = `${baseUrl}${USERS.UPDATE}`;
 	const method = 'patch';
@@ -26,8 +32,8 @@ export const updateCart = async (data) => {
 	return await mainRequest(method, url, data);
 };
 
-export const checkout = async (data) => {
-	const url = `${baseUrl}${USERS.CHECKOUT}`;
+export const updateCheckout = async (data) => {
+	const url = `${baseUrl}${USERS.UPDATE_CHECKOUT}`;
 	const method = 'post';
 	return await mainRequest(method, url, data);
 };

@@ -1,4 +1,6 @@
 import * as Yup from 'yup';
+import { NavLink } from 'react-router-dom';
+
 import { DollarSign, Support, Handshake } from '../assets';
 
 export const baseUrl = 'http://localhost:5050/api';
@@ -11,9 +13,10 @@ export const ROUTES = {
 		SIGN_UP: '/users/signup',
 		LOGIN: '/users/login',
 		GET: '/users',
+		GET_BY_ID: '/users/by-id',
 		UPDATE: '/users/update-user',
 		UPDATE_CART: '/users/update-cart',
-		CHECKOUT: '/users/checkout',
+		UPDATE_CHECKOUT: '/users/checkout',
 	},
 	TESTIMONIALS: {
 		GET_BY_SIZE: '/testimonials/by-size/',
@@ -21,6 +24,18 @@ export const ROUTES = {
 	EMPLOYEES: {
 		GET_BY_DEPARTMENT: '/employees/by-department/',
 	},
+	STRIPE: {
+		GET_CONFIG: '/stripe/config',
+		CREATE_INTENT: '/stripe/create-payment-intent',
+		GET_COMPLETE_INTENT: '/stripe/get-completed-intent',
+		REGISTER_PAYMENT: '/stripe/register-payment',
+	},
+	INVOICES: {
+		GET_INVOICE: '/invoices',
+	},
+	ORDERS: {
+		GET_ORDERS: '/orders',
+	}
 };
 
 export const HEADER_LINKS = [
@@ -112,15 +127,11 @@ export const BENEFITS = [
 export const SKILL_FILTER_DATA = [
 	{
 		value: 'Beginner',
-		name: 'beginner',
+		name: 'Beginner',
 	},
 	{
 		value: 'Intermediate',
-		name: 'intermediate',
-	},
-	{
-		value: 'Advanced',
-		name: 'advanced',
+		name: 'Intermediate',
 	},
 ];
 
@@ -159,5 +170,53 @@ export const PRICE_FILTER_DATA = [
 	{
 		name: 'four',
 		value: { min: 20, max: Number.MAX_SAFE_INTEGER },
+	},
+];
+
+export const CURRENCIES = {
+	CANADIAN: 'cad',
+	UNITED_STATES: 'usd',
+	EURO: 'eur',
+};
+
+export const THINGS_TO_KNOW = [
+	{
+		id: '001',
+		data: <span className='-mt-[2px]'>Learn at your own pace</span>,
+	},
+	{
+		id: '002',
+		data: (
+			<span className='-mt-[2px]'>You have unlimited access your courses</span>
+		),
+	},
+	{
+		id: '003',
+		data: (
+			<span className='-mt-[2px]'>
+				Our{' '}
+				<NavLink to='/contact' className='text-blue-600 font-medium'>
+					{' '}
+					support team
+				</NavLink>{' '}
+				is always ready to help
+			</span>
+		),
+	},
+	{
+		id: '004',
+		data: (
+			<span className='-mt-[2px]'>
+				Contact us when you are ready to take a test
+			</span>
+		),
+	},
+	{
+		id: '005',
+		data: (
+			<span className='-mt-[2px]'>
+				We have mentors to help you prepare for certification
+			</span>
+		),
 	},
 ];

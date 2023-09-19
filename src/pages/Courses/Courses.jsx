@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { ExpandMore } from '@mui/icons-material';
 
 import Wrapper from '../../components/Wrapper';
 import Search from '../../components/Search';
 import CourseCard from '../../components/CourseCard';
-import NothingToSeeHere from '../../components/NothingHere';
 import SkillFilter from './SkillFilter';
 import RatingFilter from './RatingFilter';
 import PriceFilter from './PriceFilter';
+import { ChevronUpDown } from '../../assets';
 
 const Courses = () => {
 	const [isLoading, setIsLoading] = useState(true);
@@ -18,7 +18,7 @@ const Courses = () => {
 	const [resetFilters, setResetFilters] = useState(true);
 	const [filterObject, setFilterObject] = useState({});
 	const { courses } = useSelector((state) => state.course);
-	
+
 	const filteredData = eCourses.filter((c) => {
 		let returnValue = false;
 		// Check if the filters are being used
@@ -70,18 +70,21 @@ const Courses = () => {
 		setFil('');
 	};
 
-	const handleFilterObject = (data) => {
-		let localFilterObject = { ...filterObject };
-		const { remove, field } = data;
-		delete data.remove;
-		if (remove) {
-			delete localFilterObject[field];
-		} else {
-			delete data.field;
-			localFilterObject = { ...localFilterObject, ...data };
-		}
-		setFilterObject({ ...localFilterObject });
-	};
+	const handleFilterObject = useCallback(
+		(data) => {
+			let localFilterObject = { ...filterObject };
+			const { remove, field } = data;
+			delete data.remove;
+			if (remove) {
+				delete localFilterObject[field];
+			} else {
+				delete data.field;
+				localFilterObject = { ...localFilterObject, ...data };
+			}
+			setFilterObject({ ...localFilterObject });
+		},
+		[filterObject]
+	);
 
 	useEffect(() => {
 		setECourses([...courses]);
@@ -102,7 +105,7 @@ const Courses = () => {
 
 	return (
 		<div className='w-full'>
-			<p className='text-3xl sm:text-4xl max-w-4xl font-serif leading-none mb-10'>
+			<p className='page-subtitle leading-none mb-10'>
 				Development Courses
 			</p>
 			<div>
@@ -115,7 +118,7 @@ const Courses = () => {
 				<div className='mt-6'>
 					<div className='flex'>
 						<button
-							className='text-xl font-semibold'
+							className='text-lg font-semibold'
 							aria-expanded={showFilters}
 							onClick={() => setShowFilters((prev) => !prev)}
 							disabled={isLoading}
@@ -124,27 +127,36 @@ const Courses = () => {
 						</button>
 					</div>
 					{showFilters && (
-						<div className='w-full flex flex-wrap mt-2'>
+						<div className='w-full flex flex-wrap mt-2 gap-y-3'>
 							<SkillFilter
 								reset={resetFilters}
 								handleFilter={handleFilterObject}
+								buttonImage={ChevronUpDown}
 							/>
 							<RatingFilter
 								reset={resetFilters}
 								handleFilter={handleFilterObject}
+								buttonImage={ChevronUpDown}
 							/>
 							<PriceFilter
 								reset={resetFilters}
 								handleFilter={handleFilterObject}
+								buttonImage={ChevronUpDown}
 							/>
 						</div>
 					)}
 				</div>
-				<div className='flex flex-wrap gap-5 my-12 justify-center sm:justify-start'>
+				<div className='flex flex-wrap gap-5 mt-8 mb-12 justify-center sm:justify-start'>
 					{filteredData.map((course) => (
 						<CourseCard course={course} key={course._id} />
 					))}
-					{showEmptyImage && <NothingToSeeHere />}
+					{showEmptyImage && (
+						<div className='w-full min-h-[400px] grid place-items-center'>
+							<p className='text-xl sm:text-4xl font-medium text-center'>
+								No courses to show at this time.
+							</p>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

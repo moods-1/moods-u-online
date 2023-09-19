@@ -4,10 +4,10 @@ import LogoDark from './remoteLogoDark.png';
 import LogoLight from './remoteLogoLight.png';
 import LostMan from './lostMan.png';
 import DefaultAvatar from './defaultAvatar.png';
-import NothingHere from './nothing-here.png';
 import DollarSign from './dollarSignCircleBlack.png';
 import Support from './supportBlack.png';
 import Handshake from './handshakeBlack.png';
+import ChevronUpDown from './chevron-up-down.svg';
 
 export {
 	DefaultAvatar,
@@ -16,8 +16,8 @@ export {
 	LogoDark,
 	LogoLight,
 	LostMan,
-	NothingHere,
 	DollarSign,
 	Support,
 	Handshake,
+	ChevronUpDown,
 };

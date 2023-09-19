@@ -44,11 +44,6 @@ export const getStoredCart = () => {
 	return [];
 }
 
-export const getLoggedIn = () => {
-	const result = getLocalStorage('loggedIn');
-	return result === 'true' ? true : false;
-};
-
 export const handleLogin = (data) => {
 	const { token, cart } = data;
 	let localCart = [];
@@ -64,7 +59,6 @@ export const handleLogin = (data) => {
 	setLocalStorage('user', JSON.stringify(data));
 	setLocalStorage('cart', JSON.stringify(localCart));
 	setLocalStorage('token', token);
-	setLocalStorage('loggedIn', true);
 };
 
 export const handleUserUpadte = (data) => {
@@ -253,4 +247,5 @@ export const suffixSetter=(quantity, unit)=> {
 	  }
 	}
 	return unit;
-  }
+}
+  

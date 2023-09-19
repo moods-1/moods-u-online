@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+
 import Wrapper from '../../components/Wrapper';
 import EnrolledItem from './EnrolledItem';
-import { NothingHere } from '../../assets';
-import { getLoggedIn } from '../../helpers/helperFunctions';
+import ThingsToKnow from './ThingsToKnow';
 
 const EnrolledCourses = () => {
 	const [coursesEnrolled, setCoursesEnrolled] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const { user } = useSelector((state) => state.user);
 	const { courses } = useSelector((state) => state.course);
-	const loggedIn = getLoggedIn();
+	const { user } = useSelector((state) => state.user);
+	const { loggedIn } = user;
 
 	useEffect(() => {
+		setIsLoading(true);
 		const localEnrolled = [];
 		user?.enrolledCourses?.forEach((course) => {
 			const item = courses.find((c) => c._id === course);
@@ -33,14 +34,22 @@ const EnrolledCourses = () => {
 
 	return (
 		<div className='min-h-[calc(100vh-110px)]'>
-			<p className='text-3xl sm:text-4xl max-w-4xl font-serif leading-none mb-12'>
+			<p className='page-subtitle max-w-4xl leading-none mb-12'>
 				{title}
 			</p>
-			<div className='flex flex-col gap-5 mb-12'>
-				{coursesEnrolled.map((course) => (
-					<EnrolledItem key={course._id} course={course} />
-				))}
-				{showEmptyImage && <img src={NothingHere} alt='nothing to see' className='lg:w-13 mx-auto'/>}
+			<div className='flex flex-wrap gap-8 flex-col-reverse lg:flex-row pb-12'>
+				<div className='flex flex-1 flex-col gap-5 mb-12'>
+					{coursesEnrolled.map((course) => (
+						<EnrolledItem key={course._id} course={course} />
+					))}
+					{showEmptyImage && (
+						<p className='text-lg sm:text-xl -mt-10 animate-fade-in'>
+							You are either not enrolled in any courses, or we cannot locate
+							your courses.
+						</p>
+					)}
+				</div>
+				<ThingsToKnow />
 			</div>
 		</div>
 	);

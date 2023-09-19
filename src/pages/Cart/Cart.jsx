@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Grid } from '@mui/material';
 
 import Wrapper from '../../components/Wrapper';
-import { removeFromCart, loadCart } from '../../redux/user';
+import { removeFromCart, loadUser } from '../../redux/user';
 import { EmptyCart } from '../../assets';
 import CustomSlider from '../../components/CustomSlider';
 import CourseCard from '../../components/CourseCard';
 import CartTop from './CartTop';
 import CartItem from './CartItem';
-import { getStoredCart, updateStorageCart } from '../../helpers/helperFunctions';
+import {
+	getStoredUser,
+	handleLogin,
+	setLocalStorage,
+	updateStorageCart,
+} from '../../helpers/helperFunctions';
+import { updateCart } from '../../api/user';
+import OrderSummary from './OrderSummary';
 
 const Cart = () => {
 	const { courses } = useSelector((state) => state.course);
@@ -49,11 +57,7 @@ const Cart = () => {
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		const storedCart = getStoredCart();
-		if (storedCart.length) {
-			dispatch(loadCart(storedCart));
-		}
-	}, [dispatch]);
+	}, []);
 
 	const handleCheck = (id) => {
 		const localCart = { ...localCartObject };
@@ -65,9 +69,28 @@ const Cart = () => {
 		setLocalCartObject({ ...localCart });
 	};
 
-	const handleDelete = (id) => {
-		updateStorageCart(id, 'remove');
+	const handleDelete = async (id) => {
+		const type = 'remove';
+		updateStorageCart(id, type);
 		dispatch(removeFromCart(id));
+		if (loggedIn) {
+			const result = await updateCart({ userId: user?._id, itemId: id, type });
+			const { status, message, response } = result;
+			if (status < 400 && response) {
+				dispatch(loadUser({ ...response, loggedIn: true }));
+				handleLogin(response);
+			} else {
+				console.log({ message });
+			}
+		} else {
+			const storedUser = getStoredUser();
+			if (storedUser) {
+				const { cart } = storedUser;
+				const editedCart = cart.filter((c) => c._id !== id);
+				storedUser.cart = editedCart;
+				setLocalStorage('user', JSON.stringify(storedUser));
+			}
+		}
 	};
 
 	const handleCheckout = () => {
@@ -82,14 +105,14 @@ const Cart = () => {
 
 	let title = '';
 	if (cartItems) {
-		title = `Checkout Courses (${cartItems})`;
+		title = 'Shopping Cart';
 	} else {
 		title = cart.length ? 'You have no items selected.' : 'Your cart is empty.';
 	}
 
 	return (
 		<div className='mb-5'>
-			<CartTop title={title} subtotal={subtotal} />
+			<CartTop title={title} cartItems={cartItems} />
 			{cart.length ? (
 				<div className='flex flex-col-reverse sm:flex-row gap-4'>
 					<div className='flex flex-col gap-5 flex-1'>
@@ -103,28 +126,16 @@ const Cart = () => {
 							/>
 						))}
 					</div>
-					<div className='w-full sm:w-40 text-left sm:text-center mb-10'>
-						{showCheckout && (
-							<div
-								className='w-full relative'
-								onMouseOver={handleLoginMessage}
-								onMouseLeave={() => setShowLoginMessage(false)}
-							>
-								<button
-									className='bg-amber-500 text-white px-12 py-1 rounded-md w-full'
-									onClick={handleCheckout}
-									disabled={!loggedIn}
-								>
-									Checkout
-								</button>
-								{showLoginMessage && (
-									<div className='border rounded-md p-2 text-red-600 text-sm mt-1'>
-										You must logged in to checkout.
-									</div>
-								)}
-							</div>
-						)}
-					</div>
+					<OrderSummary
+						cartItems={cartItems}
+						subtotal={subtotal}
+						showCheckout={showCheckout}
+						handleLoginMessage={handleLoginMessage}
+						handleCheckout={handleCheckout}
+						showLoginMessage={showLoginMessage}
+						loggedIn={loggedIn}
+						handleMouseLeave={() => setShowLoginMessage(false)}
+					/>
 				</div>
 			) : (
 				<img src={EmptyCart} alt='empty-cart' className='mx-auto w-80 mt-20' />

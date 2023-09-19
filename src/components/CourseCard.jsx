@@ -3,10 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 
-import { addToCart, removeFromCart } from '../redux/user';
+import { addToCart, removeFromCart, loadUser } from '../redux/user';
 import Ratings from './Ratings';
 import { updateCart } from '../api/user';
-import { updateStorageCart } from '../helpers/helperFunctions';
+import {
+	updateStorageCart,
+	handleLogin,
+	getStoredUser,
+	setLocalStorage,
+} from '../helpers/helperFunctions';
 
 const CourseCard = ({ course }) => {
 	const [userId, setUserId] = useState('');
@@ -18,7 +23,7 @@ const CourseCard = ({ course }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const loggedIn = user?.loggedIn;
-	
+
 	const snack = (message, type, duration) => {
 		return enqueueSnackbar(message, {
 			variant: type,
@@ -33,11 +38,28 @@ const CourseCard = ({ course }) => {
 		} else {
 			const itemId = _id;
 			const type = 'add';
-			updateStorageCart(itemId, type);
+
 			if (loggedIn) {
-				await updateCart({ userId, itemId, type });
+				const result = await updateCart({ userId, itemId, type });
+				const { status, message, response } = result;
+				if (status < 400 && response) {
+					dispatch(loadUser({ ...response, loggedIn: true }));
+					handleLogin(response);
+				} else {
+					console.log({ message });
+				}
+			} else {
+				const storedUser = getStoredUser();
+				console.log({ storedUser });
+				if (storedUser) {
+					const { cart } = storedUser;
+					const editedCart = cart.filter((c) => c._id !== _id);
+					storedUser.cart = editedCart;
+					setLocalStorage('user', JSON.stringify(storedUser));
+				}
+				updateStorageCart(itemId, type);
+				dispatch(addToCart(_id));
 			}
-			dispatch(addToCart(_id));
 		}
 	};
 
@@ -45,10 +67,25 @@ const CourseCard = ({ course }) => {
 		const itemId = _id;
 		const type = 'remove';
 		updateStorageCart(itemId, type);
-		if (loggedIn) {
-			await updateCart({ userId, itemId, type });
-		}
 		dispatch(removeFromCart(_id));
+		if (loggedIn) {
+			const result = await updateCart({ userId: user?._id, itemId, type });
+			const { status, message, response } = result;
+			if (status < 400 && response) {
+				dispatch(loadUser({ ...response, loggedIn: true }));
+				handleLogin(response);
+			} else {
+				console.log({ message });
+			}
+		} else {
+			const storedUser = getStoredUser();
+			if (storedUser) {
+				const { cart } = storedUser;
+				const editedCart = cart.filter((c) => c._id !== _id);
+				storedUser.cart = editedCart;
+				setLocalStorage('user', JSON.stringify(storedUser));
+			}
+		}
 	};
 
 	const handleDetails = () => {
@@ -59,7 +96,6 @@ const CourseCard = ({ course }) => {
 		setUserId(user._id ? user._id : '');
 	}, [user]);
 
-	
 	return (
 		<div className='w-[240px] min-h-[300px] flex-shrink-0 overflow-hidden relative'>
 			<div

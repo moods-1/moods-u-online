@@ -1,30 +1,27 @@
 import React from 'react';
-import { Checkbox, Button } from '@mui/material';
+import { Checkbox, Button, Grid } from '@mui/material';
 
 const CartItem = ({ course, handleCheck, handleDelete, localCartObject }) => {
 	return (
-		<div key={course._id} className='flex flex-wrap gap-5 border-b pb-4'>
-			<div className='flex w-80 h-50'>
-				<div className='grid place-items-center'>
+		<Grid container key={course._id} spacing={3} className='border-b pb-4'>
+			<Grid item xs={12} sm={12} md={6} lg={2} className='flex items-center'>
+				<div className='w-12 h-full grid place-items-center'>
 					<Checkbox
 						onChange={() => handleCheck(course._id)}
 						checked={course._id in localCartObject}
+						size='small'
 					/>
 				</div>
-				<div className='h-30 sm:h-40 w-50 sm:w-80'>
-					<img
-						src={course.image}
-						alt={course.title}
-						className='w-full h-[100%]'
-					/>
+				<div className='flex-1 h-full'>
+					<img src={course.image} alt={course.title} className='h-full' />
 				</div>
-			</div>
-			<div className='max-w-xl flex flex-col justify-between'>
-				<div>
-					<p className='text-2xl font-semibold'>{course.title}</p>
-					<p className=''>{course.subtitle}</p>
-					<p className='font-semibold mb-2'>${course.price}</p>
-				</div>
+			</Grid>
+			<Grid item xs={12} sm={12} md={6}>
+				<p className='text-md sm:text-xl font-semibold'>{course.title}</p>
+			</Grid>
+
+			<Grid item xs={12} md={3} className='flex justify-between gap-x-4'>
+				<p className='font-semibold mb-2'>${course.price}</p>
 				<div>
 					<Button
 						size='small'
@@ -35,8 +32,8 @@ const CartItem = ({ course, handleCheck, handleDelete, localCartObject }) => {
 						Delete
 					</Button>
 				</div>
-			</div>
-		</div>
+			</Grid>
+		</Grid>
 	);
 };
 

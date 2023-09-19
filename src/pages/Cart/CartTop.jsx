@@ -1,12 +1,18 @@
 import React from 'react';
 
-const CartTop = ({ title, subtotal }) => {
+import { suffixSetter } from '../../helpers/helperFunctions';
+
+const CartTop = ({ title, cartItems }) => {
+	const items = suffixSetter(cartItems, 'Item');
+
 	return (
-		<div className='flex flex-wrap justify-between items-center gap-5 mb-16'>
+		<div className='flex flex-wrap justify-between items-center gap-5 mb-8'>
 			<p className='page-subtitle'>{title}</p>
-			<p className='page-subtitle text-xl'>
-				<span className='font-semibold'>Subtotal: </span>${subtotal}
-			</p>
+			{cartItems ? (
+				<p className='page-subtitle text-xl'>
+					{cartItems} {items}
+				</p>
+			) : null}
 		</div>
 	);
 };

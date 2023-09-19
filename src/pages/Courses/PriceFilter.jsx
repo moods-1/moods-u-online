@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Checkbox } from '@mui/material';
+import { Fragment, useState, useEffect } from 'react';
+import { Listbox, Transition } from '@headlessui/react';
 
 import { PRICE_FILTER_DATA } from '../../helpers/constants';
 
-const PriceFilter = ({ reset, handleFilter }) => {
-	const [priceObject, setPriceObject] = useState({});
+const PriceFilter = ({ reset, handleFilter, buttonImage }) => {
+	const [selected, setSelected] = useState({});
+
 	const displaySetter = (values) => {
 		const { min, max } = values;
 		if (typeof min === 'number' && typeof max === 'number') {
@@ -16,45 +17,79 @@ const PriceFilter = ({ reset, handleFilter }) => {
 		return '$0+';
 	};
 
-	const handleCheck = (e) => {
-		const localObj = {};
-		const { name, checked } = e.target;
-		const value = PRICE_FILTER_DATA.find((p) => p.name === name)?.value;
-		if (checked) {
-			localObj[name] = value;
-		}
-		setPriceObject({ ...localObj });
-		handleFilter({
-			field: 'price',
-			remove: !checked,
-			price: value,
-		});
+	const handleChange = (e) => {
+		setSelected((prev) => (prev.name === e.name ? {} : e));
 	};
 
 	useEffect(() => {
+		const removeFilter = Object.keys(selected).length < 1;
+		handleFilter({
+			field: 'price',
+			remove: removeFilter,
+			price: selected?.value,
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [selected]);
+
+	useEffect(() => {
 		if (reset) {
-			setPriceObject({});
+			setSelected([]);
 		}
 	}, [reset]);
 
 	return (
-		<div className='flex flex-col w-52 filter-checkbox px-2 pb-2'>
-			<p className='font-semibold mb-3'>Price</p>
-			{PRICE_FILTER_DATA.map(({ name, value }) => {
-				const display = displaySetter(value);
-				return (
-					<span className='filter-line' key={name}>
-						<Checkbox
-							disableRipple
-							name={name}
-							value={value}
-							checked={name in priceObject}
-							onChange={handleCheck}
-						/>{' '}
-						<span className='text-[15px]'>{display}</span>
-					</span>
-				);
-			})}
+		<div className='listbox-container md:w-48'>
+			<Listbox value={selected} onChange={handleChange}>
+				<div className='relative w-full z-10'>
+					<Listbox.Button className='listbox-button'>
+						<span>
+							{selected.value ? displaySetter(selected.value) : 'Price Range'}
+						</span>
+						<span className='listbox-button-img'>
+							<span className='h-5 w-5 text-gray-400' aria-hidden='true'>
+								<img src={buttonImage} className='h-full w-full' alt='^' />
+							</span>
+						</span>
+					</Listbox.Button>
+					<Transition
+						as={Fragment}
+						leave='transition ease-in duration-100'
+						leaveFrom='opacity-100'
+						leaveTo='opacity-0'
+					>
+						<Listbox.Options className='listbox-options'>
+							{PRICE_FILTER_DATA.map((price) => (
+								<Listbox.Option
+									key={price.name}
+									className={({ active }) =>
+										`listbox-default-option ${
+											active ? 'listbox-active-option' : 'text-gray-900'
+										}`
+									}
+									value={price}
+								>
+									{({ selected }) => (
+										<>
+											<span
+												className={`block truncate ${
+													selected ? 'font-medium' : 'font-normal'
+												}`}
+											>
+												{displaySetter(price.value)}
+											</span>
+											{selected ? (
+												<span className='listbox-checkmark'>
+													&#x2713;
+												</span>
+											) : null}
+										</>
+									)}
+								</Listbox.Option>
+							))}
+						</Listbox.Options>
+					</Transition>
+				</div>
+			</Listbox>
 		</div>
 	);
 };

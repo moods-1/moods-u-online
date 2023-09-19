@@ -31,7 +31,9 @@ const SupportMembers = () => {
 			{isLoading ? (
 				<Loader />
 			) : (
-				supportTeam.map((member) => <SupportMember member={member} />)
+				supportTeam.map((member) => (
+					<SupportMember key={member._id} member={member} />
+				))
 			)}
 		</div>
 	);

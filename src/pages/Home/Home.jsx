@@ -71,10 +71,7 @@ const Home = () => {
 					</div>
 				</div>
 			</div>
-			
-				<Benefits />
-			
-
+			<Benefits />
 			<Testimonials />
 			<div className='flex flex-wrap items-center justify-between mb-1 gap-5'>
 				<p className='page-subtitle'>Popular Courses</p>
