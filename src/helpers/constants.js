@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { DollarSign, Support, Handshake } from '../assets';
 
 // export const baseUrl = 'http://localhost:5050/api';
-export const baseUrl = 'https://moods-u-server.vercel.app/';
+export const baseUrl = 'https://moods-u-server.vercel.app/api';
 
 export const ROUTES = {
 	COURSES: {
