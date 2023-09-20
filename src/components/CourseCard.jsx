@@ -50,7 +50,6 @@ const CourseCard = ({ course }) => {
 				}
 			} else {
 				const storedUser = getStoredUser();
-				console.log({ storedUser });
 				if (storedUser) {
 					const { cart } = storedUser;
 					const editedCart = cart.filter((c) => c._id !== _id);

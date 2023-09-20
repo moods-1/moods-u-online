@@ -4,6 +4,7 @@ import {
 	getStoredUser,
 	deleteStorageItem,
 	handleLogin,
+	getStoredCart,
 } from '../helpers/helperFunctions';
 import { getUserById } from '../api/user';
 
@@ -24,11 +25,11 @@ const fetchUser = async () => {
 			console.log({ message });
 		}
 	}
-	return {};
+	return {enrolledCourses:[]};
 };
 
 const fetchedUser = await fetchUser();
-const storeCart = fetchedUser?.cart || [];
+const storeCart = fetchedUser?.cart || getStoredCart() || [];
  
 const initialState = {
 	user: { ...fetchedUser },

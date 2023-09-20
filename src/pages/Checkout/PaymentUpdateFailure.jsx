@@ -1,9 +1,6 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import CustomLoader from '../../components/CustomLoader';
-import { PartyPopper } from '../../assets';
-
 const PaymentUpdateFailure = () => {
 	const { state } = useLocation();
 

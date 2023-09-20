@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Grid } from '@mui/material';
 
 import Wrapper from '../../components/Wrapper';
 import { removeFromCart, loadUser } from '../../redux/user';
