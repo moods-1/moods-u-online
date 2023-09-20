@@ -8,9 +8,9 @@ const Order = ({ order }) => {
 	const { products, createdAt, orderTotal, orderId } = order;
 	const orderDate = moment(createdAt).format('DD-MMM-YYYY');
 
-	const downloadInvoice = async() => {
+	const downloadInvoice = async () => {
 		await getInvoice(orderId);
-	}
+	};
 
 	return (
 		<div className='w-full border-b m:flex-row justify-between min-h-[200px] mb-6'>
@@ -27,7 +27,12 @@ const Order = ({ order }) => {
 						<span className='font-semibold'>Order Total: </span> ${orderTotal}
 					</p>
 				</div>
-				<button className='px-6 bg-slate-600 text-white rounded-md' onClick={downloadInvoice}>Invoice</button>
+				<button
+					className='px-6 py-1 bg-slate-600 text-white rounded-md'
+					onClick={downloadInvoice}
+				>
+					Invoice
+				</button>
 			</div>
 
 			<div className='flex flex-wrap gap-4 py-4'>

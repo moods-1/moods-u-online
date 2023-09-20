@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// import { handleLogout, getToken } from '../helpers/helperFunctions';
 import { getToken } from '../helpers/helperFunctions';
 
 export const mainRequest = async (method, url, data) => {
@@ -20,7 +19,6 @@ export const mainRequest = async (method, url, data) => {
 			if (status === 401) {
 				let messageOut = responseMessage || message;
 				console.log(messageOut);
-				// handleLogout();
 			}
 		}
 		return { status: returnStatus, message, response: returnData };
