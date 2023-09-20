@@ -8,11 +8,13 @@ import Wrapper from '../../components/Wrapper';
 const Orders = () => {
 	const [userOrders, setUserOrders] = useState([]);
 	const [fullOrders, setFullOrders] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 	const { courses } = useSelector((state) => state.course);
 	const { user } = useSelector((state) => state.user);
 
 	useEffect(() => {
 		if (user?.loggedIn) {
+			setIsLoading(true);
 			const { _id: userId } = user;
 			const getOrders = async () => {
 				const result = await getAllOrders(userId);
@@ -20,6 +22,7 @@ const Orders = () => {
 				if (status < 400 && response) {
 					setUserOrders([...response]);
 				} else console.log({ message });
+				setIsLoading(false);
 			};
 			getOrders();
 		} else setUserOrders([]);
@@ -39,14 +42,22 @@ const Orders = () => {
 			});
 			setFullOrders([...localOrders]);
 		} else setFullOrders([]);
+		setIsLoading(false);
 	}, [courses, user, userOrders]);
 
+	const showEmptyImage = fullOrders.length < 1 && !isLoading;
 	return (
 		<div className='full-height'>
 			<p className='page-subtitle mb-12'>Order History</p>
 			{fullOrders.map((order) => (
 				<Order key={order._id} order={order} />
 			))}
+			{showEmptyImage && (
+						<p className='text-md sm:text-lg -mt-4 animate-fade-in'>
+							You are either have not made any purchases, or we cannot locate
+							your orders.
+						</p>
+					)}
 		</div>
 	);
 };

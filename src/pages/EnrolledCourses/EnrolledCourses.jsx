@@ -43,7 +43,7 @@ const EnrolledCourses = () => {
 						<EnrolledItem key={course._id} course={course} />
 					))}
 					{showEmptyImage && (
-						<p className='text-lg sm:text-xl -mt-10 animate-fade-in'>
+						<p className='text-md sm:text-lg -mt-4 animate-fade-in'>
 							You are either not enrolled in any courses, or we cannot locate
 							your courses.
 						</p>
