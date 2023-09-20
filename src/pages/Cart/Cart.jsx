@@ -17,6 +17,7 @@ import {
 } from '../../helpers/helperFunctions';
 import { updateCart } from '../../api/user';
 import OrderSummary from './OrderSummary';
+import DuplicationModal from '../../components/modals/DuplicationModal';
 
 const Cart = () => {
 	const { courses } = useSelector((state) => state.course);
@@ -26,10 +27,16 @@ const Cart = () => {
 	const [localCartObject, setLocalCartObject] = useState({});
 	const [cartCourses, setCartCourses] = useState([]);
 	const [subtotal, setSubtotal] = useState(0);
+	const [showDuplicationModal, setShowDuplicationModal] = useState(false);
+	const [duplicateCourses, setDuplicateCourses] = useState([]);
 	const navigate = useNavigate();
 	const cartItems = Object.keys(localCartObject).length;
 	const showCheckout = Object.keys(localCartObject).length > 0;
 	const loggedIn = user?.loggedIn;
+
+	const handleDuplicationModalClose = () => {
+		setShowDuplicationModal((prev) => !prev);
+	};
 
 	useEffect(() => {
 		const cartItems = [];
@@ -93,7 +100,18 @@ const Cart = () => {
 	};
 
 	const handleCheckout = () => {
-		navigate('/checkout');
+		const enrolledSet = new Set([...user?.enrolledCourses]);
+		const cartDuplicates = [];
+		cart.forEach((item) => {
+			if (enrolledSet.has(item)) cartDuplicates.push(item);
+		});
+		if (cartDuplicates.length) {
+			console.log('Already in enrolled courses...');
+			setDuplicateCourses([...cartDuplicates]);
+			setShowDuplicationModal(true);
+		} else {
+			navigate('/checkout');
+		}
 	};
 
 	const handleLoginMessage = () => {
@@ -143,6 +161,13 @@ const Cart = () => {
 				<p className='page-subtitle mt-20 mb-8'>Recommended Courses</p>
 				<CustomSlider data={sliderData} />
 			</div>
+			{showDuplicationModal && (
+				<DuplicationModal
+					open={showDuplicationModal}
+					onClose={handleDuplicationModalClose}
+					duplicates={duplicateCourses}
+				/>
+			)}
 		</div>
 	);
 };

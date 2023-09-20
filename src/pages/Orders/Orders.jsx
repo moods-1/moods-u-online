@@ -12,36 +12,38 @@ const Orders = () => {
 	const { user } = useSelector((state) => state.user);
 
 	useEffect(() => {
-		const { _id: userId } = user;
-		const getOrders = async () => {
-			const result = await getAllOrders(userId);
-			const { status, message, response } = result;
-			if (status < 400 && response) {
-				setUserOrders([...response]);
-			} else {
-				console.log({ message });
-			}
-		};
-		getOrders();
+		if (user?.loggedIn) {
+			const { _id: userId } = user;
+			const getOrders = async () => {
+				const result = await getAllOrders(userId);
+				const { status, message, response } = result;
+				if (status < 400 && response) {
+					setUserOrders([...response]);
+				} else console.log({ message });
+			};
+			getOrders();
+		} else setUserOrders([]);
 	}, [user]);
 
 	useEffect(() => {
-		const localOrders = [...userOrders];
-		localOrders.forEach((order) => {
-			const fullProducts = [];
-			const { products } = order;
-			products.forEach((productId) => {
-				const item = courses.find((c) => c._id === productId);
-				if (item) fullProducts.push(item);
-			}, []);
-			order.products = fullProducts;
-		});
-		setFullOrders([...localOrders]);
+		if (userOrders.length) {
+			const localOrders = [...userOrders];
+			localOrders.forEach((order) => {
+				const fullProducts = [];
+				const { products } = order;
+				products.forEach((productId) => {
+					const item = courses.find((c) => c._id === productId);
+					if (item) fullProducts.push(item);
+				}, []);
+				order.products = fullProducts;
+			});
+			setFullOrders([...localOrders]);
+		} else setFullOrders([]);
 	}, [courses, user, userOrders]);
-	
+
 	return (
-    <div className='full-height'>
-      <p className='page-subtitle mb-12'>Order History</p>
+		<div className='full-height'>
+			<p className='page-subtitle mb-12'>Order History</p>
 			{fullOrders.map((order) => (
 				<Order key={order._id} order={order} />
 			))}

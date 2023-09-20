@@ -78,7 +78,8 @@ export function handleLogout() {
 }
 
 export const userLogout = () => {
-	clearStorage();
+	deleteStorageItem('user');
+	deleteStorageItem('token');
 };
 
 export const updateStorageCart = (id, type) => {
