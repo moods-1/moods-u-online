@@ -25,12 +25,12 @@ const fetchUser = async () => {
 			console.log({ message });
 		}
 	}
-	return {enrolledCourses:[]};
+	return { enrolledCourses: [] };
 };
 
 const fetchedUser = await fetchUser();
 const storeCart = fetchedUser?.cart || getStoredCart() || [];
- 
+
 const initialState = {
 	user: { ...fetchedUser },
 	cart: [...storeCart],
@@ -78,7 +78,7 @@ export const userSlice = createSlice({
 			state.cart = [];
 		},
 		logoutUser: (state) => {
-			state.user = {};
+			state.user = { enrolledCourses: [] };
 			state.cart = [];
 		},
 	},
