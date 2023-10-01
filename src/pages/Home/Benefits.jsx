@@ -4,7 +4,7 @@ import { BENEFITS } from '../../helpers/constants';
 
 const Benefits = () => {
 	return (
-		<div className='flex flex-wrap justify-around w-full min-h-[500px] p-12 pb-4 gap-x-6'>
+		<div className='flex flex-wrap justify-around w-full min-h-[500px] p-12 pb-4 gap-x-4'>
 			{BENEFITS.map(({ largeValue, title, text, image }) => (
 				<div key={title} className='flex min-w-[240px] max-w-[300px] p-4 mb-12'>
 					<div className='text-black'>

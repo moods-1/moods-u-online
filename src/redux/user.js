@@ -5,6 +5,7 @@ import {
 	deleteStorageItem,
 	handleLogin,
 	getStoredCart,
+	clearStorage,
 } from '../helpers/helperFunctions';
 import { getUserById } from '../api/user';
 
@@ -17,10 +18,12 @@ const fetchUser = async () => {
 		if (status < 400 && response) {
 			deleteStorageItem('cart');
 			handleLogin(response);
-			return { ...response, loggedIn: true };
-		} else {
+			return { ...response, loggedIn: true };		
+		} else{
 			if ('email' in storedUser) {
-				return { ...storedUser, loggedIn: true };
+				if (status === 401) {
+					clearStorage();
+				}else return { ...storedUser, loggedIn: true };
 			}
 			console.log({ message });
 		}

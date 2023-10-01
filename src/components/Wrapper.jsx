@@ -4,7 +4,7 @@ const Wrapper = (Component, idName) =>
 	function HOC() {
 		return (
 			<div
-				className='max-w-[1920px] mx-auto relative sm:px-20 px-5 z-0 w-full full-height'
+				className='max-w-[1920px] mx-auto relative sm:px-12 lg:px-20 px-5 z-0 w-full full-height'
 				id={idName || ''}
 			>
 				<Component />
