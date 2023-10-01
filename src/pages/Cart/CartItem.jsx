@@ -12,7 +12,7 @@ const CartItem = ({ course, handleCheck, handleDelete, localCartObject }) => {
 						size='small'
 					/>
 				</div>
-				<div className='flex-1 h-full sm:max-h-[160px]'>
+				<div className='flex-1 h-full sm:max-h-[150px]'>
 					<img src={course.image} alt={course.title} className='h-full' />
 				</div>
 			</Grid>

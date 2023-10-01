@@ -131,7 +131,7 @@ const Cart = () => {
 		<div className='mb-5'>
 			<CartTop title={title} cartItems={cartItems} />
 			{cart.length ? (
-				<div className='flex flex-col-reverse sm:flex-row gap-4 border border-red-800'>
+				<div className='flex flex-col-reverse sm:flex-row gap-4'>
 					<div className='flex flex-col gap-5 flex-1'>
 						{cartCourses.map((course) => (
 							<CartItem
