@@ -48,7 +48,6 @@ const SignUp = ({ handleType }) => {
 		const result = await signUpUser(form);
 		const { status, message, response } = result;
 		if (status < 400 && response) {
-			console.log({response})
 			const data = { ...response, loggedIn: true };
 			handleLogin(data);
 			dispatch(loadUser(data));

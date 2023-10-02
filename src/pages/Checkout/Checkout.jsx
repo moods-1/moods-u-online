@@ -14,14 +14,14 @@ const Checkout = () => {
 	const [enablePay, setEnablePay] = useState(false);
 	const [orderTotal, setOrderTotal] = useState(0);
 	const [clientSecret, setClientSecret] = useState(null);
-	const { cart, user } = useSelector((state) => state.user);
+	const {checkoutCart, user } = useSelector((state) => state.user);
 	const { courses } = useSelector((state) => state.course);
 	const stripePublishableKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
-	const cartQuantity = cart.length;
+	const cartQuantity = checkoutCart.length;
 
 	useEffect(() => {
 		let total = 0;
-		cart.forEach((id) => {
+		checkoutCart.forEach((id) => {
 			const item = courses.find((c) => c._id === id);
 			if (item) {
 				total += item.price;
@@ -29,7 +29,7 @@ const Checkout = () => {
 		});
 		setEnablePay(total > 0);
 		setOrderTotal(total.toFixed(2));
-	}, [cart, courses]);
+	}, [checkoutCart, courses]);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -41,7 +41,7 @@ const Checkout = () => {
 					userId: user._id,
 					customer: `${user.firstName} ${user.lastName}`,
 					email: user.email,
-					cart,
+					cart: checkoutCart,
 				};
 				const result = await createPaymentIntent(requestBody);
 				const { status, message, response } = result;
@@ -56,7 +56,7 @@ const Checkout = () => {
 		} else {
 			setIsLoading(false);
 		}
-	}, [orderTotal, cart, user]);
+	}, [orderTotal, checkoutCart, user]);
 
 	const showElements = stripePublishableKey && clientSecret;
 	const showNoConnection = !showElements && !isLoading;

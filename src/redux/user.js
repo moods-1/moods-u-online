@@ -18,12 +18,12 @@ const fetchUser = async () => {
 		if (status < 400 && response) {
 			deleteStorageItem('cart');
 			handleLogin(response);
-			return { ...response, loggedIn: true };		
-		} else{
+			return { ...response, loggedIn: true };
+		} else {
 			if ('email' in storedUser) {
 				if (status === 401) {
 					clearStorage();
-				}else return { ...storedUser, loggedIn: true };
+				} else return { ...storedUser, loggedIn: true };
 			}
 			console.log({ message });
 		}
@@ -55,11 +55,11 @@ export const userSlice = createSlice({
 			state.user = { ...state.user, ...action.payload };
 		},
 		updateUserPostCheckout: (state, action) => {
-			const user = action.payload;
-			state.user = { ...user, loggedIn: true };
-			state.cart = [];
-			setLocalStorage('cart', JSON.stringify([]));
-			setLocalStorage('user', JSON.stringify(user));
+			const { cart } = action.payload;
+			state.user = { ...action.payload, loggedIn: true };
+			state.cart = [...cart];
+			setLocalStorage('cart', JSON.stringify(cart));
+			setLocalStorage('user', JSON.stringify(action.payload));
 		},
 		addToCart: (state, action) => {
 			const { cart } = current(state);
@@ -84,6 +84,9 @@ export const userSlice = createSlice({
 			state.user = { enrolledCourses: [] };
 			state.cart = [];
 		},
+		handleCheckoutCart: (state, action) => {
+			state.checkoutCart = [...action.payload];
+		},
 	},
 });
 
@@ -97,6 +100,7 @@ export const {
 	loadCart,
 	removeFromCart,
 	emptyCart,
+	handleCheckoutCart,
 } = userSlice.actions;
 
 export default userSlice.reducer;

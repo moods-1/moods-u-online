@@ -13,6 +13,7 @@ const CustomInput = ({
 	invalid,
 	required,
 	requiredStar,
+	readOnly
 }) => {
 	return (
 		<div className='mt-3'>
@@ -33,6 +34,7 @@ const CustomInput = ({
 				maxLength={max || null}
 				style={{ borderColor: invalid ? 'red' : '' }}
 				required={required || false}
+				readOnly={readOnly}
 			/>
 		</div>
 	);

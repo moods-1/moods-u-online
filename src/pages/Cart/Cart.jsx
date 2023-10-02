@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Wrapper from '../../components/Wrapper';
-import { removeFromCart, loadUser } from '../../redux/user';
+import { removeFromCart, loadUser, handleCheckoutCart } from '../../redux/user';
 import { EmptyCart } from '../../assets';
 import CustomSlider from '../../components/CustomSlider';
 import CourseCard from '../../components/CourseCard';
@@ -48,9 +48,10 @@ const Cart = () => {
 				cartObject[id] = item;
 			}
 		});
+		dispatch(handleCheckoutCart(cart));
 		setCartCourses([...cartItems]);
 		setLocalCartObject({ ...cartObject });
-	}, [cart, courses]);
+	}, [cart, courses, dispatch]);
 
 	useEffect(() => {
 		let total = 0;
@@ -72,6 +73,7 @@ const Cart = () => {
 		} else {
 			localCart[id] = cartCourses.find((c) => c._id === id);
 		}
+		dispatch(handleCheckoutCart(Object.keys(localCart)));
 		setLocalCartObject({ ...localCart });
 	};
 
@@ -106,7 +108,6 @@ const Cart = () => {
 			if (enrolledSet.has(item)) cartDuplicates.push(item);
 		});
 		if (cartDuplicates.length) {
-			console.log('Already in enrolled courses...');
 			setDuplicateCourses([...cartDuplicates]);
 			setShowDuplicationModal(true);
 		} else {
@@ -155,7 +156,11 @@ const Cart = () => {
 					/>
 				</div>
 			) : (
-				<img src={EmptyCart} alt='empty-cart' className='mx-auto w-80 mt-20' />
+				<img
+					src={EmptyCart}
+					alt='empty-cart'
+					className='mx-auto w-80 mt-20 sm:min-h-[35vh]'
+				/>
 			)}
 			<div>
 				<p className='page-subtitle mt-20 mb-8'>Recommended Courses</p>

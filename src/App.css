@@ -40,8 +40,8 @@
 	margin: auto;
 } 
 .user-modal-form {
-	width: 90%;
-	max-width: 300px;
+	width: 95%;
+	max-width: 340px;
 }
 
 @media screen and (max-width: 500px) {

@@ -9,7 +9,7 @@ export const mainRequest = async (method, url, data) => {
 		const response = await axios({ method, url, data, headers });
 		return response.data;
 	} catch (error) {
-		let returnStatus, returnData, responseMessage;
+		let returnStatus, returnData, responseMessage, messageOut;
 		let { message } = error;
 		if (error.response) {
 			const { status, data } = error.response;
@@ -17,11 +17,10 @@ export const mainRequest = async (method, url, data) => {
 			returnData = data;
 			responseMessage = data?.message;
 			if (status === 401) {
-				let messageOut = responseMessage || message;
-				console.log(messageOut);
+				messageOut = responseMessage || message;
 			}
 		}
-		return { status: returnStatus, message, response: returnData };
+		return { status: returnStatus, message: messageOut, response: returnData };
 	}
 };
 

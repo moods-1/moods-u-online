@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -6,17 +6,29 @@ import { useSelector } from 'react-redux';
 import Wrapper from '../../components/Wrapper';
 import SupportBox from './SupportBox';
 import SupportMembers from './SupportMembers';
+import EmailModal from '../../components/modals/EmailModal';
 
 const Contact = () => {
-	const { user } = useSelector(state => state.user);
+	const [showEmail, setShowEmail] = useState(false);
+	const [userData, setUserData] = useState({});
+	const { user } = useSelector((state) => state.user);
 	const { loggedIn } = user;
 	const navigate = useNavigate();
+
+	const handleEmailClose = () => {
+		setUserData({});
+		setShowEmail(false);
+	};
 
 	const handleLogin = () => {
 		navigate('/auth');
 	};
 
-	const handleEmail = () => {};
+	const handleEmail = () => {
+		const { email, firstName, lastName } = user;
+		setUserData({ email, firstName, lastName });
+		setShowEmail(true);
+	};
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -71,6 +83,14 @@ const Contact = () => {
 				</p>
 			</div>
 			<SupportMembers />
+			{showEmail && (
+				<EmailModal
+					open={showEmail}
+					onClose={handleEmailClose}
+					userData={userData}
+					loggedIn={loggedIn}
+				/>
+			)}
 		</div>
 	);
 };

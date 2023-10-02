@@ -12,7 +12,7 @@ const EnrolledItem = ({ course, showPrice }) => {
 			</div>
 			<div className='max-w-md flex flex-col justify-between'>
 				<div>
-					<p className='text-2xl font-semibold'>{course.title}</p>
+					<p className='text-lg sm:text-2xl font-semibold'>{course.title}</p>
 					<p className=''>{course.subtitle}</p>
 				</div>
 			</div>

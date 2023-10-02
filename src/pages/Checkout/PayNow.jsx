@@ -52,7 +52,6 @@ const PlaceOrder = ({ enablePay, cartQuantity, orderTotal }) => {
 				const result = await registerPayment({ intent: id });
 				const { status, message, response } = result;
 				const { user, order } = response;
-				console.log({ user, order });
 				if (status < 400 && user) {
 					if ('userId' in order) {
 						const { orderId } = order;

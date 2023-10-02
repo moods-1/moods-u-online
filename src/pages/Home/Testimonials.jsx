@@ -12,11 +12,9 @@ const Testimonials = () => {
 		setIsLoading(true);
 		const fetchData = async () => {
 			const result = await getTestimonials(3);
-			const { status, message, response } = result;
+			const { status, response } = result;
 			if (status < 400) {
 				setTestimonials(response);
-			} else {
-				console.log(message);
 			}
 			setIsLoading(false);
 		};
@@ -33,8 +31,8 @@ const Testimonials = () => {
 						{isLoading ? (
 							<Loader type='circle' size='4rem' />
 						) : (
-								testimonials.map((item) => (
-									<Testimonial key={item._id} {...item} />
+							testimonials.map((item) => (
+								<Testimonial key={item._id} {...item} />
 							))
 						)}
 					</div>

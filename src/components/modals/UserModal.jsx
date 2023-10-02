@@ -32,7 +32,7 @@ const UserModal = ({ open, handleClose, user, type }) => {
 			autoHideDuration: duration,
 		});
 	};
-	
+
 	const handleChange = (e) => {
 		const { target } = e;
 		const { name, value } = target;
@@ -184,11 +184,11 @@ const UserModal = ({ open, handleClose, user, type }) => {
 						fullWidth
 						sx={{ marginTop: '20px' }}
 						type='submit'
-						color='primary'
+						className='black-button'
 						variant='contained'
 						disabled={submitting}
 					>
-						Save
+						{submitting ? 'Submitting ...' : 'Save'}
 					</Button>
 				</form>
 			</Slide>

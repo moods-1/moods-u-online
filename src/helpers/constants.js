@@ -91,6 +91,9 @@ export const userModalSchema = Yup.object({
 		/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
 		'Invalid email address.'
 	),
+	message: Yup.string()
+		.max(200, 'Must be 200 characters or less.')
+		.min(2, 'Must be between 2 to 200 characters.'),
 });
 
 export const loginSchema = Yup.object({

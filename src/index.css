@@ -41,6 +41,9 @@
 .listbox-plus {
 	@apply inline-block -mt-1 font-bold text-[16px] text-gray-600;
 }
+.MuiModal-backdrop {
+	@apply bg-transparent;
+}
 
 * {
 	padding: 0;
@@ -67,7 +70,7 @@ code {
 ::-webkit-scrollbar-thumb {
 	background-color: #000;
 	border-radius: 7px;
-	min-height: 70px;
+	min-height: 40px;
 }
 .dropdown-anchor {
 	width: 100%;
@@ -76,6 +79,10 @@ code {
 .black-button {
 	background-color: #000 !important;
 	color: #fff !important;
+}
+
+.black-button:disabled {
+	background-color: #343333 !important;
 }
 
 .filter-checkbox .MuiButtonBase-root {
@@ -88,4 +95,8 @@ button[aria-expanded='true'] svg {
 }
 .full-height {
 	min-height: calc(100vh - 110px);
+}
+
+.MuiModal-backdrop {
+	background-color: rgba(0, 0, 0, 0.1) !important;
 }

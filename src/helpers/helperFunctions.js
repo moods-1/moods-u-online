@@ -42,7 +42,7 @@ export const getStoredCart = () => {
 		return JSON.parse(getLocalStorage('cart'));
 	}
 	return [];
-}
+};
 
 export const handleLogin = (data) => {
 	const { token, cart } = data;
@@ -66,11 +66,11 @@ export const handleUserUpadte = (data) => {
 	if (getLocalStorage('user')) {
 		localCart = JSON.parse(getLocalStorage('user'));
 		localCart = { ...localCart, ...data };
-	} else{
+	} else {
 		localCart = { ...data };
 	}
 	setLocalStorage('user', JSON.stringify(localCart));
-}
+};
 
 export function handleLogout() {
 	clearStorage();
@@ -163,7 +163,8 @@ export const isValid = (type, pattern, value) => {
 };
 
 export const VALIDATOR_OBJECT = {
-	name: { min: 2, max: 25, pattern: '', patternText: '' },
+	name: { min: 2, max: 50, pattern: '', patternText: '' },
+	subject: { min: 2, max: 50, pattern: '', patternText: '' },
 	firstName: { min: 2, max: 25, pattern: '', patternText: '' },
 	lastName: { min: 2, max: 25, pattern: '', patternText: '' },
 	email: {
@@ -211,6 +212,9 @@ export const formValidator = (formObject) => {
 			case 'lastName':
 				error = value.length < min || value.length > max;
 				break;
+			case 'subject':
+				error = value.length < min || value.length > max;
+				break;
 			case 'message':
 				error = value.length < min || value.length > max;
 				break;
@@ -230,22 +234,21 @@ export const formValidator = (formObject) => {
 		errorObject[key] = error ? message : '';
 		errorSet.add(error);
 	});
-	return {error: errorSet.has(true), errorObject};
+	return { error: errorSet.has(true), errorObject };
 };
 
-export const suffixSetter=(quantity, unit)=> {
+export const suffixSetter = (quantity, unit) => {
 	let localQty = Number(quantity);
 	let end = unit.slice(-1).toLowerCase();
 	const start = unit.slice(0, -1);
 	if (localQty === 0 || localQty > 1) {
-	  if (end === "x") {
-		return unit + "es";
-	  } else if (end === "y") {
-		return start + "ies";
-	  } else {
-		return unit + "s";
-	  }
+		if (end === 'x') {
+			return unit + 'es';
+		} else if (end === 'y') {
+			return start + 'ies';
+		} else {
+			return unit + 's';
+		}
 	}
 	return unit;
-}
-  
+};
