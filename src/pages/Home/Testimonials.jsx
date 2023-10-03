@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 import { getTestimonials } from '../../api/testimonials';
-import Loader from '../../components/CustomLoader';
 import Testimonial from './Testimonial';
+import { TESTIMONIALS_PLACEHOLDER } from '../../helpers/constants';
 
 const Testimonials = () => {
-	const [testimonials, setTestimonials] = useState([]);
+	const [testimonials, setTestimonials] = useState([
+		...TESTIMONIALS_PLACEHOLDER,
+	]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
@@ -28,13 +30,9 @@ const Testimonials = () => {
 			{showNothing ? null : (
 				<div className='w-full mb-10 bg-black text-white px-4 py-16 min-h-[468px]'>
 					<div className='flex flex-wrap w-full justify-around gap-10 min-h-[340px]'>
-						{isLoading ? (
-							<Loader type='circle' size='4rem' />
-						) : (
-							testimonials.map((item) => (
-								<Testimonial key={item._id} {...item} />
-							))
-						)}
+						{testimonials.map((item) => (
+							<Testimonial key={item._id} {...item} isLoading={isLoading} />
+						))}
 					</div>
 				</div>
 			)}

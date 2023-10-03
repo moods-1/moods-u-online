@@ -21,10 +21,10 @@ const Order = ({ order }) => {
 						{orderId}
 					</p>
 					<p>
-						<span className='font-semibold'>Order Date: </span> {orderDate}
+						<span className='font-semibold'>Date: </span> {orderDate}
 					</p>
 					<p>
-						<span className='font-semibold'>Order Total: </span> ${orderTotal}
+						<span className='font-semibold'>Total: </span> ${orderTotal}
 					</p>
 				</div>
 				<button

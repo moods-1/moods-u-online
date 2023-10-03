@@ -224,3 +224,30 @@ export const THINGS_TO_KNOW = [
 		),
 	},
 ];
+
+export const SUPPORT_PLACEHOLDER = [
+	{
+		_id: '001',
+	},
+	{
+		_id: '002',
+	},
+	{
+		_id: '003',
+	},
+	{
+		_id: '004',
+	},
+];
+
+export const TESTIMONIALS_PLACEHOLDER = [
+	{
+		_id: '001',
+	},
+	{
+		_id: '002',
+	},
+	{
+		_id: '003',
+	}
+];

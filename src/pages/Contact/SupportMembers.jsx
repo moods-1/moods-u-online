@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 import { getEmployeesByDepartment } from '../../api/employees';
-import { COMPANY_DEPARTMENTS } from '../../helpers/constants';
+import { COMPANY_DEPARTMENTS, SUPPORT_PLACEHOLDER } from '../../helpers/constants';
 import SupportMember from './SupportMember';
-import Loader from '../../components/CustomLoader';
 
 const SupportMembers = () => {
-	const [supportTeam, setSupportTeam] = useState([]);
+	const [supportTeam, setSupportTeam] = useState([...SUPPORT_PLACEHOLDER]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
@@ -28,13 +27,9 @@ const SupportMembers = () => {
 
 	return (
 		<div className='w-full flex flex-wrap gap-10 justify-evenly mt-16'>
-			{isLoading ? (
-				<Loader />
-			) : (
-				supportTeam.map((member) => (
-					<SupportMember key={member._id} member={member} />
-				))
-			)}
+			{supportTeam.map((member) => (
+				<SupportMember key={member._id} member={member} isLoading={isLoading} />
+			))}
 		</div>
 	);
 };
