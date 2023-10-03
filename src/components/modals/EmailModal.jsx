@@ -12,7 +12,7 @@ const EmailModal = ({ open, onClose, userData, loggedIn }) => {
 	const [message, setMessage] = useState({});
 	const [submitting, setSubmitting] = useState(false);
 	const [form, setForm] = useState({
-		name: fullName || '',
+		name: '',
 		email: email || '',
 		subject: '',
 		message: '',
@@ -103,7 +103,7 @@ const EmailModal = ({ open, onClose, userData, loggedIn }) => {
 						label='Name'
 						type='text'
 						name='name'
-						value={form.name}
+						value={loggedIn ? fullName : form.name}
 						requiredStar
 						invalid={formError.firstName}
 						readOnly={loggedIn}
