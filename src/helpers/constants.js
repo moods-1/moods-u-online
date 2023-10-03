@@ -6,6 +6,8 @@ import { DollarSign, Support, Handshake } from '../assets';
 // export const baseUrl = 'http://localhost:5050/api';
 export const baseUrl = 'https://moods-u-server.vercel.app/api';
 
+export const MIXPANEL_TOKEN = process.env.REACT_APP_MIXPANEL_TOKEN;
+
 export const ROUTES = {
 	COURSES: {
 		ALL: '/courses',
