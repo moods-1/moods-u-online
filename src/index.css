@@ -100,3 +100,45 @@ button[aria-expanded='true'] svg {
 .MuiModal-backdrop {
 	background-color: rgba(0, 0, 0, 0.1) !important;
 }
+
+.chat-box {
+	@apply h-[calc(100vh-180px)] border flex flex-col p-4 overflow-y-auto;
+}
+.chat-box::-webkit-scrollbar-thumb {
+	background-color: transparent !important;
+}
+/* .chat-box::-moz */
+.chat-message {
+	@apply text-white rounded-lg min-w-[80px] max-w-[100%] p-2 break-words text-[14px] mb-2;
+}
+.your-message {
+	@apply bg-blue-600 relative;
+}
+
+.your-message::after {
+	display: block;
+	position: absolute;
+	content: '';
+	width: 15px;
+	height: 10px;
+	rotate: 45deg;
+	z-index: 0;
+	left: 5px;
+	background:  rgb(37 99 235);
+}
+
+.other-persons-message {
+	@apply bg-green-500 relative;
+}
+.other-persons-message::after {
+	display: block;
+	position: absolute;
+	content: '';
+	width: 15px;
+	height: 10px;
+	rotate: 45deg;
+	z-index: 0;
+	right: 10px;
+	background: rgb(34 197 94);
+
+}

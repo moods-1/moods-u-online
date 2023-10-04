@@ -251,5 +251,5 @@ export const TESTIMONIALS_PLACEHOLDER = [
 	},
 	{
 		_id: '003',
-	}
+	},
 ];

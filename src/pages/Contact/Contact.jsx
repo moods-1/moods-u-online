@@ -7,9 +7,11 @@ import Wrapper from '../../components/Wrapper';
 import SupportBox from './SupportBox';
 import SupportMembers from './SupportMembers';
 import EmailModal from '../../components/modals/EmailModal';
+import ChatModal from '../../components/modals/ChatModal/ChatModal';
 
 const Contact = () => {
 	const [showEmail, setShowEmail] = useState(false);
+	const [showChat, setShowChat] = useState(false);
 	const [userData, setUserData] = useState({});
 	const { user } = useSelector((state) => state.user);
 	const { loggedIn } = user;
@@ -18,6 +20,10 @@ const Contact = () => {
 	const handleEmailClose = () => {
 		setUserData({});
 		setShowEmail(false);
+	};
+
+	const handleChatClose = () => {
+		setShowChat(false);
 	};
 
 	const handleLogin = () => {
@@ -41,7 +47,9 @@ const Contact = () => {
 				: 'Support is only available for logged in members.'
 		}`,
 		button: loggedIn ? (
-			<Button className='black-button'>Chat</Button>
+			<Button className='black-button' onClick={() => setShowChat(true)}>
+				Chat
+			</Button>
 		) : (
 			<Button className='black-button' onClick={handleLogin}>
 				Log In
@@ -90,6 +98,9 @@ const Contact = () => {
 					userData={userData}
 					loggedIn={loggedIn}
 				/>
+			)}
+			{showChat && (
+				<ChatModal open={showChat} onClose={handleChatClose} user={user} />
 			)}
 		</div>
 	);
