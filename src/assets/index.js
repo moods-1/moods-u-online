@@ -8,6 +8,7 @@ import DollarSign from './dollarSignCircleBlack.png';
 import Support from './supportBlack.png';
 import Handshake from './handshakeBlack.png';
 import ChevronUpDown from './chevron-up-down.svg';
+import SendPlane from './paperPlane.png';
 
 export {
 	DefaultAvatar,
@@ -20,4 +21,5 @@ export {
 	Support,
 	Handshake,
 	ChevronUpDown,
+	SendPlane
 };

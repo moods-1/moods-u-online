@@ -142,3 +142,14 @@ button[aria-expanded='true'] svg {
 	right: 6px;
 	background: #000;
 }
+
+.message-slide {
+	animation: slideMessage 400ms ease forwards;
+}
+
+@keyframes slideMessage {
+	0% {
+		transform: translateY(10px);
+		opacity: 0;
+	}
+}

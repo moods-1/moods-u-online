@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Button } from '@mui/material';
+
 import Message from './Message';
+import MessageControl from './MessageControl';
 
 const initialMessage = (user, room) => {
 	const { firstName } = user;
@@ -67,7 +68,9 @@ const Chat = ({ socket, user, room }) => {
 					return (
 						<div
 							key={idx}
-							className={`w-full mb-4 flex ${!ownMessage ? 'justify-end' : ''}`}
+							className={`w-full mb-4 flex ${
+								!ownMessage ? 'justify-end' : ''
+							} ${lastMessage ? 'message-slide' : ''}`}
 							ref={(el) => {
 								if (lastMessage) {
 									lastMessageRef.current = el;
@@ -80,17 +83,11 @@ const Chat = ({ socket, user, room }) => {
 					);
 				})}
 			</div>
-			<div className='w-full border flex border-t-0'>
-				<textarea
-					rows={3}
-					placeholder='Type message...'
-					value={currentMessage}
-					className='flex-1 resize-none p-2 outline-none'
-					onChange={(e) => setCurrentMessage(e.target.value)}
-					onKeyDown={(e) => (e.key === 'Enter' ? sendMessage() : null)}
-				/>
-				<Button onClick={sendMessage}>Send</Button>
-			</div>
+			<MessageControl
+				currentMessage={currentMessage}
+				handleMessage={setCurrentMessage}
+				sendMessage={sendMessage}
+			/>
 		</>
 	);
 };

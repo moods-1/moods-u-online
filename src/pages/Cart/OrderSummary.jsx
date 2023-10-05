@@ -20,7 +20,7 @@ const OrderSummary = ({
 	handleMouseLeave,
 }) => {
 	return (
-		<div className='w-full sm:w-64 text-left bg-blue-100 p-6 mb-6 sm:mb-0'>
+		<div className='w-full sm:w-64 text-left bg-blue-100 p-6 mb-6 sm:mb-0 rounded-lg'>
 			<p className='text-lg font-bold mb-4'>Order Summary</p>
 			<OrderLine span1={`ITEMS ${cartItems}`} span2={subtotal} />
 			<OrderLine span1={'TOTAL COST'} span2={subtotal} />

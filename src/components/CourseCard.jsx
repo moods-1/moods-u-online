@@ -96,14 +96,14 @@ const CourseCard = ({ course }) => {
 	}, [user]);
 
 	return (
-		<div className='w-[240px] min-h-[300px] flex-shrink-0 overflow-hidden relative'>
+		<div className='w-[240px] min-h-[300px] flex-shrink-0 overflow-hidden relative rounded-lg'>
 			<div
-				className='w-full h-[150px] mx-auto mb-4 cursor-pointer'
+				className='w-full h-[150px] mx-auto cursor-pointer'
 				onClick={handleDetails}
 			>
 				<img src={image} className='w-full h-[100%]' alt={title} />
 			</div>
-			<div className='p-2'>
+			<div className='p-2 border border-gray-100 rounded-b-lg'>
 				<p className='font-semibold'>{title}</p>
 				<Ratings rating={rating} ratingAmount={ratingAmount} />
 				<div className='flex justify-between gap-4 my-2 text-sm font-medium'>
