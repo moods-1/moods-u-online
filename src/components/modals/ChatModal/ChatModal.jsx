@@ -1,21 +1,19 @@
 import React from 'react';
 import { Modal, Slide } from '@mui/material';
-// import io from 'socket.io-client';
+import io from 'socket.io-client';
 
 import { makeRandomId } from '../../../helpers/helperFunctions';
 import Chat from './Chat';
 
-
 const ChatModal = ({ open, onClose, user }) => {
-	// const socket = io.connect('http://localhost:80');
-	// const socket = io.connect('https://moods-u-server.vercel.app/api:5055');
+	const socket = io.connect();
 	const room = user._id ? user._id : makeRandomId(8);
-	// const { _id: id, firstName } = user;
-	// const userData = { originator:firstName, room, id };
-	
-	// if (id && room) {
-	// 	socket.emit('join_room', userData);
-	// }
+	const { _id: id, firstName } = user;
+	const userData = { originator: firstName, room, id };
+
+	if (id && room) {
+		socket.emit('join_room', userData);
+	}
 	const handleCloseChat = () => {
 		onClose();
 	};
@@ -37,9 +35,8 @@ const ChatModal = ({ open, onClose, user }) => {
 					<p className='text-2xl font-semibold mb-6 text-center'>
 						Chat Support
 					</p>
-					{/* <Chat socket={socket} user={user} room={room} /> */}
-					<Chat user={user} room={room} />
-					
+					<Chat socket={socket} user={user} room={room} />
+					{/* <Chat user={user} room={room} /> */}
 				</div>
 			</Slide>
 		</Modal>

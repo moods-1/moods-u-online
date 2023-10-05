@@ -5,14 +5,16 @@ import Message from './Message';
 const initialMessage = (user, room) => {
 	const { firstName } = user;
 	const message = `Welcome ${firstName}, how may I help you?`;
-	return { room, message, originator: 'Support' };
+	const time = new Date();
+	return { room, message, originator: 'Support', time };
 };
 
-// const noSupportMessage = (user, room) => {
-// 	const { firstName } = user;
-// 	const message = `Sorry ${firstName}, our support team is not available at this time.`;
-// 	return { room, message, originator: 'Support' };
-// };
+const noSupportMessage = (user, room) => {
+	const { firstName } = user;
+	const message = `Sorry ${firstName}, our support team is not available at this time.`;
+	const time = new Date();
+	return { room, message, originator: 'Support', time };
+};
 
 const Chat = ({ socket, user, room }) => {
 	const [currentMessage, setCurrentMessage] = useState('');
@@ -28,38 +30,39 @@ const Chat = ({ socket, user, room }) => {
 		}
 	};
 
-	const sendMessage = async () => {
-		// if (currentMessage) {
-		// 	const messageData = {
-		// 		room,
-		// 		originator: user?.firstName,
-		// 		message: currentMessage,
-		// 	};
-		// 	await socket.emit('send_message', messageData);
-		// 	const messagesLength = messageList.length;
-		// 	setMessageList((prev) => {
-		// 		if (messagesLength === 1) {
-		// 			const noSupport = noSupportMessage(user, room);
-		// 			return [...prev, messageData, noSupport];
-		// 		}
-		// 		return [...prev, messageData];
-		// 	});
-		// 	setCurrentMessage('');
-		// }
+	const sendMessage = async (e) => {
+		if (currentMessage && currentMessage !== '\n') {
+			const messageData = {
+				room,
+				originator: user?.firstName,
+				message: currentMessage,
+				time: new Date(),
+			};
+			await socket.emit('send_message', messageData);
+			const messagesLength = messageList.length;
+			setMessageList((prev) => {
+				if (messagesLength === 1) {
+					const noSupport = noSupportMessage(user, room);
+					return [...prev, messageData, noSupport];
+				}
+				return [...prev, messageData];
+			});
+		}
+		setCurrentMessage('');
 	};
 
 	useEffect(() => {
-		// socket.on('receive_message', (data) => {
-		// 	setMessageList((prev) => [...prev, data]);
-		// });
-		// return () => null;
+		socket.on('receive_message', (data) => {
+			setMessageList((prev) => [...prev, data]);
+		});
+		return () => null;
 	}, [socket]);
 
 	return (
 		<>
 			<div className='chat-box'>
-				{messageList.map(({ originator, message }, idx) => {
-					const ownMessage = originator === firstName;
+				{messageList.map((message, idx) => {
+					const ownMessage = message.originator === firstName;
 					const lastMessage = messageList.length - 1 === idx;
 					return (
 						<div
@@ -72,22 +75,19 @@ const Chat = ({ socket, user, room }) => {
 								}
 							}}
 						>
-							<Message
-								ownMessage={ownMessage}
-								originator={originator}
-								message={message}
-							/>
+							<Message ownMessage={ownMessage} {...message} />
 						</div>
 					);
 				})}
 			</div>
-			<div className='w-full border flex'>
+			<div className='w-full border flex border-t-0'>
 				<textarea
 					rows={3}
 					placeholder='Type message...'
 					value={currentMessage}
 					className='flex-1 resize-none p-2 outline-none'
 					onChange={(e) => setCurrentMessage(e.target.value)}
+					onKeyDown={(e) => (e.key === 'Enter' ? sendMessage() : null)}
 				/>
 				<Button onClick={sendMessage}>Send</Button>
 			</div>

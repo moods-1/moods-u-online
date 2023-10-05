@@ -1,6 +1,8 @@
 import React from 'react';
+import moment from 'moment-timezone';
 
-const Message = ({ originator, message, ownMessage }) => {
+const Message = ({ originator, message, ownMessage, time }) => {
+	const displayTime = moment(time).format('LT');
 	return (
 		<div className='max-w-[75%]'>
 			<div
@@ -10,8 +12,12 @@ const Message = ({ originator, message, ownMessage }) => {
 			>
 				{message}
 			</div>
-			<div className={`w-full flex ${!ownMessage ? 'justify-end' : ''}`}>
-				<span className='text-sm'>{originator}</span>
+			<div
+				className={`w-full text-sm flex ${!ownMessage ? 'justify-end' : ''}`}
+			>
+				<span>
+					{originator} {displayTime}
+				</span>
 			</div>
 		</div>
 	);
