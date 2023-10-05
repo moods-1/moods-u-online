@@ -9,6 +9,7 @@ An online university for software engineering. Users can browse, and purchase co
 - React JS
 - JavaScript ES6
 - Stripe
+- WebSockets
 - HTML5
 - CSS3
 - Tailwind CSS
