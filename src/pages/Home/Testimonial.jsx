@@ -14,7 +14,7 @@ const Testimonial = ({
 	return (
 		<div
 			key={id}
-			className='w-64 min-h-[340px] p-4 rounded-lg shadow-slate-400 shadow-sm'
+			className='bg-black text-white w-64 min-h-[340px] p-4 rounded-lg'
 		>
 			{isLoading ? (
 				<HorizontalLoader height='300px' />
