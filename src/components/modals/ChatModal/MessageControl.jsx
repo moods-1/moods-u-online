@@ -5,7 +5,7 @@ import { SendPlane } from '../../../assets';
 
 const MessageControl = ({ currentMessage, handleMessage, sendMessage }) => {
 	return (
-		<div className='w-full border flex border-t-0'>
+		<div className='w-full border flex'>
 			<textarea
 				rows={3}
 				placeholder='Type message...'

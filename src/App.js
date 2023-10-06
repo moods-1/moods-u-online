@@ -17,16 +17,16 @@ import EnrolledCourses from './pages/EnrolledCourses/EnrolledCourses';
 import Courses from './pages/Courses/Courses';
 import Contact from './pages/Contact/Contact';
 import PaymentUpdateFailure from './pages/Checkout/PaymentUpdateFailure';
-// import { Mixpanel } from './components/Mixpanel';
+import { Mixpanel } from './components/Mixpanel';
 
 function App() {
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
 
-	// Mixpanel.track('Moods-U Online app accessed.', {
-	// 	action: 'Moods-U Online app accessed.',
-	// });
+	Mixpanel.track('Moods-U Online app accessed.', {
+		action: 'Moods-U Online app accessed.',
+	});
 
 	return (
 		<Router>
