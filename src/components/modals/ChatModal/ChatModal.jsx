@@ -25,7 +25,7 @@ const ChatModal = ({ open, onClose, user }) => {
 			className='relative outline-none bg-transparent'
 		>
 			<Slide in={open} timeout={750} direction='left'>
-				<div className='absolute user-modal-form bg-white p-5 min-h-screen right-0 border-none outline-none'>
+				<div className='absolute user-modal-form bg-white p-5 max-h-[calc(100vh-100px)] right-0 border-none outline-none'>
 					<p
 						className='absolute top-1 right-3 font-bold cursor-pointer hover:text-red-600 select-none'
 						onClick={onClose}
@@ -36,7 +36,6 @@ const ChatModal = ({ open, onClose, user }) => {
 						Chat Support
 					</p>
 					<Chat socket={socket} user={user} room={room} />
-					{/* <Chat user={user} room={room} /> */}
 				</div>
 			</Slide>
 		</Modal>

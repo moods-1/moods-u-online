@@ -102,7 +102,7 @@ button[aria-expanded='true'] svg {
 }
 
 .chat-box {
-	@apply h-[calc(100vh-200px)] border flex flex-col p-4 overflow-y-auto;
+	@apply h-[calc(100vh-300px)] border flex flex-col p-4 overflow-y-auto;
 }
 .chat-box::-webkit-scrollbar-thumb {
 	background-color: transparent !important;
