@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 
@@ -8,14 +7,14 @@ import Wrapper from '../../components/Wrapper';
 import PayNow from './PayNow';
 import { CURRENCIES } from '../../helpers/constants';
 import { createPaymentIntent } from '../../api/stripe';
+import { useStoreHook } from '../../redux';
 
 const Checkout = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [enablePay, setEnablePay] = useState(false);
 	const [orderTotal, setOrderTotal] = useState(0);
 	const [clientSecret, setClientSecret] = useState(null);
-	const {checkoutCart, user } = useSelector((state) => state.user);
-	const { courses } = useSelector((state) => state.course);
+	const {checkoutCart, courses, user } = useStoreHook();
 	const stripePublishableKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 	const cartQuantity = checkoutCart.length;
 

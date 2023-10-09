@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { getAllOrders } from '../../api/orders';
 import Order from './Order';
 import Wrapper from '../../components/Wrapper';
+import { useStoreHook } from '../../redux';
 
 const Orders = () => {
 	const [userOrders, setUserOrders] = useState([]);
 	const [fullOrders, setFullOrders] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const { courses } = useSelector((state) => state.course);
-	const { user } = useSelector((state) => state.user);
+	const { courses, user } = useStoreHook();
 
 	useEffect(() => {
 		if (user?.loggedIn) {

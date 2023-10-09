@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-
 
 import Wrapper from '../../components/Wrapper';
 import EnrolledItem from './EnrolledItem';
 import ThingsToKnow from './ThingsToKnow';
+import { useStoreHook } from '../../redux';
 
 const EnrolledCourses = () => {
 	const [coursesEnrolled, setCoursesEnrolled] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const { courses } = useSelector((state) => state.course);
-	const { user } = useSelector((state) => state.user);
+	const { courses, user } = useStoreHook();
 	const { loggedIn } = user;
 
 	useEffect(() => {

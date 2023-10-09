@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
 
 import Brand from './Brand';
 import { HEADER_LINKS } from '../helpers/constants';
@@ -9,11 +8,12 @@ import NavCart from './NavCart';
 import { LogoDark } from '../assets';
 import User from './User';
 import ClickOutsideHandler from './ClickOutsideHandler';
+import { useStoreHook } from '../redux';
 
 const Header = () => {
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
 	const [closeNavMenus, setCloseNavMenus] = useState(false);
-	const { user } = useSelector((state) => state.user);
+	const { user } = useStoreHook();
 	const userLoggedIn = Object.keys(user).length > 0;
 
 	const handleMenuClick = () => {

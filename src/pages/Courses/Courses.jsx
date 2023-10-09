@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import { ExpandMore } from '@mui/icons-material';
 
 import Wrapper from '../../components/Wrapper';
@@ -9,6 +8,7 @@ import SkillFilter from './SkillFilter';
 import RatingFilter from './RatingFilter';
 import PriceFilter from './PriceFilter';
 import { ChevronUpDown } from '../../assets';
+import { useStoreHook } from '../../redux';
 
 const Courses = () => {
 	const [isLoading, setIsLoading] = useState(true);
@@ -17,7 +17,7 @@ const Courses = () => {
 	const [showFilters, setShowFilters] = useState(false);
 	const [resetFilters, setResetFilters] = useState(true);
 	const [filterObject, setFilterObject] = useState({});
-	const { courses } = useSelector((state) => state.course);
+	const { courses } = useStoreHook();
 
 	const filteredData = eCourses.filter((c) => {
 		let returnValue = false;

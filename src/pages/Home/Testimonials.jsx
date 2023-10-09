@@ -9,6 +9,7 @@ const Testimonials = () => {
 		...TESTIMONIALS_PLACEHOLDER,
 	]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [noTestimonials, setNoTestimonials] = useState(false);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -18,12 +19,13 @@ const Testimonials = () => {
 			if (status < 400) {
 				setTestimonials(response);
 			}
+			else setNoTestimonials(true);
 			setIsLoading(false);
 		};
 		fetchData();
 	}, []);
 
-	const showNothing = !isLoading && testimonials.length < 1;
+	const showNothing = !isLoading && noTestimonials;
 
 	return (
 		<>

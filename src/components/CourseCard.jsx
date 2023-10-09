@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
 
 import { addToCart, removeFromCart, loadUser } from '../redux/user';
@@ -12,11 +12,12 @@ import {
 	getStoredUser,
 	setLocalStorage,
 } from '../helpers/helperFunctions';
+import { useStoreHook } from '../redux';
 
 const CourseCard = ({ course }) => {
 	const [userId, setUserId] = useState('');
 	const { _id, title, image, price, rating, ratingAmount } = course;
-	const { cart, user } = useSelector((state) => state.user);
+	const { cart, user } = useStoreHook();
 	const { enqueueSnackbar } = useSnackbar();
 	const cartSet = new Set([...cart]);
 	const inCart = cartSet.has(_id);

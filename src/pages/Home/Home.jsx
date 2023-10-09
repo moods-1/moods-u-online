@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import Typewriter from 'typewriter-effect';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,10 +11,11 @@ import CustomButton from '../../components/CustomButton';
 import { HERO_TYPEWRITER } from '../../helpers/constants';
 import Testimonials from './Testimonials';
 import Benefits from './Benefits';
+import { useStoreHook } from '../../redux';
 
 const Home = () => {
 	const [eCourses, setECourses] = useState([]);
-	const { courses } = useSelector((state) => state.course);
+	const { courses } = useStoreHook();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -73,10 +73,14 @@ const Home = () => {
 			</div>
 			<Benefits />
 			<Testimonials />
-			<div className='flex flex-wrap items-center justify-between mb-1 gap-5'>
-				<p className='page-subtitle'>Popular Courses</p>
-			</div>
-			<Slider data={sliderData} />
+			{sliderData.length > 0 && (
+				<>
+					<div className='flex flex-wrap items-center justify-between mb-1 gap-5'>
+						<p className='page-subtitle'>Popular Courses</p>
+					</div>
+					<Slider data={sliderData} />
+				</>
+			)}
 		</div>
 	);
 };

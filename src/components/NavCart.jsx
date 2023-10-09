@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Badge } from '@mui/material';
-import { useSelector } from 'react-redux';
 import { ShoppingCart } from '@mui/icons-material';
 
+import { useStoreHook } from '../redux';
+
 const NavCart = () => {
-	const { cart } = useSelector((state) => state.user);
+	const { cart } = useStoreHook();
 	const cartItems = cart?.length || 0;
 	return (
 		<NavLink to='/cart'>

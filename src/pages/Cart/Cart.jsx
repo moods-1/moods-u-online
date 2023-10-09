@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Wrapper from '../../components/Wrapper';
@@ -18,10 +18,10 @@ import {
 import { updateCart } from '../../api/user';
 import OrderSummary from './OrderSummary';
 import DuplicationModal from '../../components/modals/DuplicationModal';
+import { useStoreHook } from '../../redux';
 
 const Cart = () => {
-	const { courses } = useSelector((state) => state.course);
-	const { cart, user } = useSelector((state) => state.user);
+	const { cart, courses, user } = useStoreHook();
 	const dispatch = useDispatch();
 	const [showLoginMessage, setShowLoginMessage] = useState(false);
 	const [localCartObject, setLocalCartObject] = useState({});

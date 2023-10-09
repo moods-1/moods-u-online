@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+
+import { useStoreHook } from '../../redux';
 
 const Prerequisites = ({ prerequisites }) => {
-	const { courses } = useSelector((state) => state.course);
+	const { courses } = useStoreHook();
 	const [localCourses, setLocalCourses] = useState([]);
 	const navigate = useNavigate();
 

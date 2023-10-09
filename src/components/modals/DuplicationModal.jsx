@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Modal } from '@mui/material';
 import { Error } from '@mui/icons-material';
 
-import { useSelector } from 'react-redux';
+import { useStoreHook } from '../../redux';
 
 const PaymentSuccessModal = ({ open, onClose, duplicates }) => {
-	const { courses } = useSelector((state) => state.course);
+	const { courses } = useStoreHook();
 	const [duplicateCourses, setDuplicateCourses] = useState([]);
 
 	useEffect(() => {

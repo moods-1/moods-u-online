@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import Wrapper from '../../components/Wrapper';
 import SupportBox from './SupportBox';
 import SupportMembers from './SupportMembers';
 import EmailModal from '../../components/modals/EmailModal';
 import ChatModal from '../../components/modals/ChatModal/ChatModal';
+import { useStoreHook } from '../../redux';
 
 const Contact = () => {
 	const [showEmail, setShowEmail] = useState(false);
 	const [showChat, setShowChat] = useState(false);
 	const [userData, setUserData] = useState({});
-	const { user } = useSelector((state) => state.user);
+	const { user } = useStoreHook();
 	const { loggedIn } = user;
 	const navigate = useNavigate();
 

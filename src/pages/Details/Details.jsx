@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 import { useSnackbar } from 'notistack';
 
@@ -14,13 +14,13 @@ import Slider from '../../components/CustomSlider';
 import CourseCard from '../../components/CourseCard';
 import { updateStorageCart } from '../../helpers/helperFunctions';
 import { updateCart } from '../../api/user';
+import { useStoreHook } from '../../redux';
 
 const Details = () => {
 	const { id } = useParams();
 	const [course, setCourse] = useState({});
 	const [sliderCourses, setSliderCourses] = useState([]);
-	const { courses } = useSelector((state) => state.course);
-	const { cart, user } = useSelector((state) => state.user);
+	const { cart, courses, user } = useStoreHook();
 	const dispatch = useDispatch();
 	const { enqueueSnackbar } = useSnackbar();
 	const cartSet = new Set([...cart]);
