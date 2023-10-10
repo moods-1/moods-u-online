@@ -8,7 +8,7 @@ import SkillFilter from './SkillFilter';
 import RatingFilter from './RatingFilter';
 import PriceFilter from './PriceFilter';
 import { ChevronUpDown } from '../../assets';
-import { useStoreHook } from '../../redux';
+import { useStoreHook } from '../../hooks';
 
 const Courses = () => {
 	const [isLoading, setIsLoading] = useState(true);

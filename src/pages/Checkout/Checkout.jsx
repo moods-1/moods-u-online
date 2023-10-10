@@ -7,7 +7,7 @@ import Wrapper from '../../components/Wrapper';
 import PayNow from './PayNow';
 import { CURRENCIES } from '../../helpers/constants';
 import { createPaymentIntent } from '../../api/stripe';
-import { useStoreHook } from '../../redux';
+import { useStoreHook } from '../../hooks';
 
 const Checkout = () => {
 	const [isLoading, setIsLoading] = useState(true);

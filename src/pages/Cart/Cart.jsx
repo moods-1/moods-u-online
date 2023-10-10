@@ -18,7 +18,7 @@ import {
 import { updateCart } from '../../api/user';
 import OrderSummary from './OrderSummary';
 import DuplicationModal from '../../components/modals/DuplicationModal';
-import { useStoreHook } from '../../redux';
+import { useStoreHook } from '../../hooks';
 
 const Cart = () => {
 	const { cart, courses, user } = useStoreHook();

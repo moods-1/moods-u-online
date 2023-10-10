@@ -12,7 +12,7 @@ import {
 	getStoredUser,
 	setLocalStorage,
 } from '../helpers/helperFunctions';
-import { useStoreHook } from '../redux';
+import { useStoreHook } from '../hooks';
 
 const CourseCard = ({ course }) => {
 	const [userId, setUserId] = useState('');

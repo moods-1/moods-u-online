@@ -1,7 +1,18 @@
 import * as Yup from 'yup';
 import { NavLink } from 'react-router-dom';
 
-import { DollarSign, Support, Handshake } from '../assets';
+import {
+	DollarSign,
+	Support,
+	Handshake,
+	Testimonial1,
+	Testimonial2,
+	Testimonial3,
+	Support1,
+	Support2,
+	Support3,
+	Support4
+} from '../assets';
 
 // export const baseUrl = 'http://localhost:5050/api';
 export const baseUrl = 'https://moods-u-server.vercel.app/api';
@@ -227,29 +238,70 @@ export const THINGS_TO_KNOW = [
 	},
 ];
 
-export const SUPPORT_PLACEHOLDER = [
+export const SUPPORT_TEAM = [
 	{
-		_id: '001',
+		"_id": "64f865f78d69569c8f14889f",
+		"firstName": "Jenny",
+		"image": Support1,
+		"city": "Toronto",
+		"province": "Ontario",
+		"country": "Canada",
+		"slogan": "Find me hiking in the mountains.",
 	},
 	{
-		_id: '002',
+		"_id": "64f865f78d69569c8f1488a0",
+		"firstName": "Darren",
+		"lastName": "Smith",
+		"image": Support2,
+		"city": "Montreal",
+		"province": "Quebec",
+		"country": "Canada",
+		"slogan": "Chefing is life!",
 	},
 	{
-		_id: '003',
+		"_id": "64f865f78d69569c8f1488a1",
+		"firstName": "Denise",
+		"lastName": "Jones",
+		"image": Support3,
+		"city": "Vancouver",
+		"province": "British Columbia",
+		"country": "Canada",
+		"slogan": "Always living life to the fullest.",
 	},
 	{
-		_id: '004',
-	},
+		"_id": "64f865f78d69569c8f1488a2",
+		"firstName": "Sanjay",
+		"lastName": "Dutt",
+		"image": Support4,
+		"city": "Halifax",
+		"province": "Nova Scotia",
+		"country": "Canada",
+		"slogan": "Making others laugh is medicine to me.",
+	}
 ];
 
-export const TESTIMONIALS_PLACEHOLDER = [
+export const TESTIMONIALS = [
 	{
-		_id: '001',
+		_id: '64f65156d0eee5c11e908c5e',
+		firstName: 'Jen',
+		lastName: 'Jones',
+		image:Testimonial1,	
+		testimonial:
+			'The courses I completed here helped me to achieve my goal of becoming a full-stack developer. I highly recommend Moods U!',
 	},
 	{
-		_id: '002',
+		_id: '64f65156d0eee5c11e908c5f',
+		firstName: 'Dave',
+		lastName: 'Matthews',
+		image:Testimonial2,
+		testimonial: 'The professionalism of the staff and teachers was thoroughly freshing. I have tried other sources, and this company is the best by far. I started my engineering career immediately after completing my courses.',
 	},
 	{
-		_id: '003',
+		_id: '64f65156d0eee5c11e908c60',
+		firstName: 'Sandra',
+		lastName: 'Fredricks',
+		image:Testimonial3,
+		testimonial:
+			'My experience here was nothing short of amazing. I had some skills coming in, but I left here coding like a senior software engineer. Money well spent!',
 	},
 ];

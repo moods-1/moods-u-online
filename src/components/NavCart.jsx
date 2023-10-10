@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Badge } from '@mui/material';
 import { ShoppingCart } from '@mui/icons-material';
 
-import { useStoreHook } from '../redux';
+import { useStoreHook } from '../hooks';
 
 const NavCart = () => {
 	const { cart } = useStoreHook();

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Wrapper from '../../components/Wrapper';
 import EnrolledItem from './EnrolledItem';
 import ThingsToKnow from './ThingsToKnow';
-import { useStoreHook } from '../../redux';
+import { useStoreHook } from '../../hooks';
 
 const EnrolledCourses = () => {
 	const [coursesEnrolled, setCoursesEnrolled] = useState([]);

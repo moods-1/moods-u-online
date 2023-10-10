@@ -7,7 +7,7 @@ import SupportBox from './SupportBox';
 import SupportMembers from './SupportMembers';
 import EmailModal from '../../components/modals/EmailModal';
 import ChatModal from '../../components/modals/ChatModal/ChatModal';
-import { useStoreHook } from '../../redux';
+import { useStoreHook } from '../../hooks';
 
 const Contact = () => {
 	const [showEmail, setShowEmail] = useState(false);
@@ -38,6 +38,7 @@ const Contact = () => {
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
+		return () => null;
 	}, []);
 
 	const chatProps = {

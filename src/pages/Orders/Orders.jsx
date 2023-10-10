@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { getAllOrders } from '../../api/orders';
 import Order from './Order';
 import Wrapper from '../../components/Wrapper';
-import { useStoreHook } from '../../redux';
+import { useStoreHook } from '../../hooks';
 
 const Orders = () => {
 	const [userOrders, setUserOrders] = useState([]);

@@ -11,7 +11,7 @@ import CustomButton from '../../components/CustomButton';
 import { HERO_TYPEWRITER } from '../../helpers/constants';
 import Testimonials from './Testimonials';
 import Benefits from './Benefits';
-import { useStoreHook } from '../../redux';
+import { useStoreHook } from '../../hooks';
 
 const Home = () => {
 	const [eCourses, setECourses] = useState([]);

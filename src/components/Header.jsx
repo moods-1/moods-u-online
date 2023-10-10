@@ -8,7 +8,7 @@ import NavCart from './NavCart';
 import { LogoDark } from '../assets';
 import User from './User';
 import ClickOutsideHandler from './ClickOutsideHandler';
-import { useStoreHook } from '../redux';
+import { useStoreHook } from '../hooks';
 
 const Header = () => {
 	const [showMobileMenu, setShowMobileMenu] = useState(false);

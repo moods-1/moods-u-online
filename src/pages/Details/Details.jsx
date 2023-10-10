@@ -14,7 +14,7 @@ import Slider from '../../components/CustomSlider';
 import CourseCard from '../../components/CourseCard';
 import { updateStorageCart } from '../../helpers/helperFunctions';
 import { updateCart } from '../../api/user';
-import { useStoreHook } from '../../redux';
+import { useStoreHook } from '../../hooks';
 
 const Details = () => {
 	const { id } = useParams();
@@ -33,7 +33,7 @@ const Details = () => {
 			autoHideDuration: duration,
 		});
 	};
-	
+
 	const handleAddToCart = async () => {
 		const enrolledSet = new Set([...user?.enrolledCourses]);
 		if (enrolledSet.has(id)) {
@@ -61,7 +61,9 @@ const Details = () => {
 		dispatch(removeFromCart(id));
 	};
 
-	const sliderData = sliderCourses.map((course) => <CourseCard course={course} />);
+	const sliderData = sliderCourses.map((course) => (
+		<CourseCard course={course} />
+	));
 
 	useEffect(() => {
 		if (courses) {
@@ -109,9 +111,8 @@ const Details = () => {
 					</div>
 					<div className='w-full my-12'>
 						<p className='page-subtitle'>You may also like</p>
-					<Slider data={sliderData} />
+						<Slider data={sliderData} />
 					</div>
-					
 				</div>
 			) : (
 				<div />

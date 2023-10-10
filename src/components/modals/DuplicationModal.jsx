@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal } from '@mui/material';
 import { Error } from '@mui/icons-material';
 
-import { useStoreHook } from '../../redux';
+import { useStoreHook } from '../../hooks';
 
 const PaymentSuccessModal = ({ open, onClose, duplicates }) => {
 	const { courses } = useStoreHook();

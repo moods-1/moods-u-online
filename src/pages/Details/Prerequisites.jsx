@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useStoreHook } from '../../redux';
+import { useStoreHook } from '../../hooks';
 
 const Prerequisites = ({ prerequisites }) => {
 	const { courses } = useStoreHook();
