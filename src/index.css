@@ -153,3 +153,7 @@ button[aria-expanded='true'] svg {
 		opacity: 0;
 	}
 }
+
+.section-3 {
+	@apply flex flex-wrap w-full justify-center md:justify-evenly gap-x-20 gap-y-10 pt-20;
+}

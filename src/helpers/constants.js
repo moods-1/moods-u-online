@@ -256,7 +256,7 @@ export const SUPPORT_TEAM = [
 		"city": "Montreal",
 		"province": "Quebec",
 		"country": "Canada",
-		"slogan": "Chefing is life!",
+		"slogan": "Cooking is life!",
 	},
 	{
 		"_id": "64f865f78d69569c8f1488a1",

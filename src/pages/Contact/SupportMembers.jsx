@@ -5,7 +5,7 @@ import SupportMember from './SupportMember';
 
 const SupportMembers = () => {
 	return (
-		<div className='w-full flex flex-wrap gap-10 justify-evenly mt-16'>
+		<div className='section-3'>
 			{SUPPORT_TEAM.map((member) => (
 				<SupportMember key={member._id} member={member} />
 			))}

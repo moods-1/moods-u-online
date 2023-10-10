@@ -5,7 +5,7 @@ const Testimonial = ({ _id: id, image, lastName, firstName, testimonial }) => {
 	return (
 		<div
 			key={id}
-			className='bg-black text-white w-64 min-h-[340px] p-4 rounded-lg'
+			className='bg-black text-white max-w-[280px] min-h-[340px] py-5 px-6 rounded-lg mb-6'
 		>
 			<img
 				src={image}
