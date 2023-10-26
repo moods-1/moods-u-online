@@ -32,13 +32,13 @@ const Header = () => {
 		>
 			<Brand image={LogoDark} />
 			<div className='flex gap-4 items-center'>
-				<ul className='gap-3 hidden sm:flex'>
+				<div className='gap-3 hidden sm:flex'>
 					{HEADER_LINKS.map(({ name, route }) => (
 						<NavLink to={route} key={name} className='hover:text-blue-600'>
 							{name}
 						</NavLink>
 					))}
-				</ul>
+				</div>
 				<div className='relative sm:hidden'>
 					<ClickOutsideHandler outsideFunction={() => setShowMobileMenu(false)}>
 						<Menu onClick={handleMenuClick} className='cursor-pointer' />
